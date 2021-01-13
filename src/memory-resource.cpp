@@ -33,8 +33,8 @@
  * References are to ISO/IEC 14882:2011(E) Third edition (2011-09-01).
  */
 
-#include <micro-os-plus/rtos/os.h>
 #include <micro-os-plus/estd/memory_resource>
+#include <micro-os-plus/rtos/os.h>
 
 // ----------------------------------------------------------------------------
 
@@ -44,39 +44,39 @@ using namespace os;
 
 namespace os
 {
-  namespace estd
-  {
-    // ========================================================================
+namespace estd
+{
+// ============================================================================
 
-    [[noreturn]] void
-    __throw_bad_alloc (void)
-    {
+[[noreturn]] void
+__throw_bad_alloc (void)
+{
 #if defined(__EXCEPTIONS)
-      throw std::bad_alloc ();
+  throw std::bad_alloc ();
 #else
-      trace::printf ("bad_alloc()\n");
-      std::abort ();
+  trace::printf ("bad_alloc()\n");
+  std::abort ();
 #endif
-    }
+}
 
-    namespace pmr
-    {
-      // ----------------------------------------------------------------------
+namespace pmr
+{
+// ----------------------------------------------------------------------------
 
-      memory_resource*
-      set_default_resource (memory_resource* res) noexcept
-      {
-        trace::printf ("estd::pmr::%s(%p) \n", __func__, res);
+memory_resource*
+set_default_resource (memory_resource* res) noexcept
+{
+  trace::printf ("estd::pmr::%s(%p) \n", __func__, res);
 
-        memory_resource* old = default_resource;
-        default_resource = res;
+  memory_resource* old = default_resource;
+  default_resource = res;
 
-        return old;
-      }
+  return old;
+}
 
-    // ------------------------------------------------------------------------
-    } /* namespace pmr */
-  } /* namespace estd */
+// ----------------------------------------------------------------------------
+} /* namespace pmr */
+} /* namespace estd */
 } /* namespace os */
 
 // ----------------------------------------------------------------------------
