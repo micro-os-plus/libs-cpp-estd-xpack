@@ -36,7 +36,10 @@
  *
  */
 
-thread::thread (thread&& t) noexcept { swap (t); }
+thread::thread (thread&& t) noexcept
+{
+  swap (t);
+}
 
 thread&
 thread::operator= (thread&& t) noexcept
@@ -81,7 +84,7 @@ thread::~thread ()
   delete_system_thread ();
 }
 
-// ----------------------------------------------------------------------------
+// ------------------------------------------------------------------------
 
 void
 thread::swap (thread& t) noexcept

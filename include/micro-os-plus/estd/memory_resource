@@ -30,9 +30,9 @@
 
 #include <micro-os-plus/rtos/os-memory.h>
 
-#include <cassert>
-#include <cerrno>
 #include <cstddef>
+#include <cerrno>
+#include <cassert>
 #include <limits>
 #include <memory>
 
@@ -40,233 +40,253 @@
 
 namespace os
 {
-namespace estd
-{
+  namespace estd
+  {
 
-// ============================================================================
+    // ========================================================================
 
-[[noreturn]] void __throw_bad_alloc (void);
+    [[noreturn]] void
+    __throw_bad_alloc (void);
 
-namespace pmr
-{
-// ============================================================================
+    namespace pmr
+    {
+      // ======================================================================
 
-using memory_resource = rtos::memory::memory_resource;
+      using memory_resource = rtos::memory::memory_resource;
 
-template <typename T> class polymorphic_allocator;
+      template<typename T>
+        class polymorphic_allocator;
 
-template <typename T1, typename T2>
-bool operator== (const polymorphic_allocator<T1>& a,
-                 const polymorphic_allocator<T2>& b) noexcept;
+      template<typename T1, typename T2>
+        bool
+        operator== (const polymorphic_allocator<T1>& a,
+                    const polymorphic_allocator<T2>& b) noexcept;
 
-template <typename T1, typename T2>
-bool operator!= (const polymorphic_allocator<T1>& a,
-                 const polymorphic_allocator<T2>& b) noexcept;
+      template<typename T1, typename T2>
+        bool
+        operator!= (const polymorphic_allocator<T1>& a,
+                    const polymorphic_allocator<T2>& b) noexcept;
 
-/**
- * @addtogroup cmsis-plus-rtos-memres
- * @{
- */
+      /**
+       * @addtogroup cmsis-plus-rtos-memres
+       * @{
+       */
 
-/**
- * @name Standard Memory Functions
- * @{
- */
+      /**
+       * @name Standard Memory Functions
+       * @{
+       */
 
-/**
- * @brief Get the address of a memory manager based on `new/delete`.
- * @par Parameters
- *  None.
- * @return Pointer to a memory manager object instance.
- */
-memory_resource* new_delete_resource (void) noexcept;
+      /**
+       * @brief Get the address of a memory manager based on `new/delete`.
+       * @par Parameters
+       *  None.
+       * @return Pointer to a memory manager object instance.
+       */
+      memory_resource*
+      new_delete_resource (void) noexcept;
 
-/**
- * @brief Get the address of an ineffective memory manager.
- * @par Parameters
- *  None.
- * @return Pointer to a memory manager object instance.
- */
-memory_resource* null_memory_resource (void) noexcept;
+      /**
+       * @brief Get the address of an ineffective memory manager.
+       * @par Parameters
+       *  None.
+       * @return Pointer to a memory manager object instance.
+       */
+      memory_resource*
+      null_memory_resource (void) noexcept;
 
-/**
- * @brief Set the default application memory manager.
- * @param res Pointer to new memory manager object instance.
- * @return Pointer to previous memory manager object instance.
- */
-memory_resource* set_default_resource (memory_resource* res) noexcept;
+      /**
+       * @brief Set the default application memory manager.
+       * @param res Pointer to new memory manager object instance.
+       * @return Pointer to previous memory manager object instance.
+       */
+      memory_resource*
+      set_default_resource (memory_resource* res) noexcept;
 
-/**
- * @brief Get the default application memory manager.
- * @par Parameters
- *  None.
- * @return Pointer to a memory manager object instance.
- */
-memory_resource* get_default_resource (void) noexcept;
+      /**
+       * @brief Get the default application memory manager.
+       * @par Parameters
+       *  None.
+       * @return Pointer to a memory manager object instance.
+       */
+      memory_resource*
+      get_default_resource (void) noexcept;
 
-/**
- * @}
- */
+      /**
+       * @}
+       */
 
-/**
- * @}
- */
+      /**
+       * @}
+       */
 
-extern memory_resource* default_resource;
+      extern memory_resource* default_resource;
 
-// ============================================================================
+      // ======================================================================
 
-template <typename T> class polymorphic_allocator
-{
-public:
-  typedef T value_type;
+      template<typename T>
+        class polymorphic_allocator
+        {
+        public:
 
-  polymorphic_allocator () noexcept;
+          typedef T value_type;
 
-  polymorphic_allocator (memory_resource* r) noexcept;
+          polymorphic_allocator () noexcept;
 
-  polymorphic_allocator (polymorphic_allocator const& a) = default;
+          polymorphic_allocator (memory_resource* r) noexcept;
 
-  template <typename U>
-  polymorphic_allocator (polymorphic_allocator<U> const& other) noexcept;
+          polymorphic_allocator (polymorphic_allocator const & a) = default;
 
-  polymorphic_allocator& operator= (polymorphic_allocator const& a) = default;
+          template<typename U>
+            polymorphic_allocator (polymorphic_allocator<U> const & other)
+                noexcept;
 
-  value_type* allocate (std::size_t n);
+          polymorphic_allocator&
+          operator= (polymorphic_allocator const & a) = default;
 
-  void deallocate (value_type* p, std::size_t n) noexcept;
+          value_type*
+          allocate (std::size_t n);
 
-  std::size_t max_size (void) const noexcept;
+          void
+          deallocate (value_type* p, std::size_t n) noexcept;
 
-  polymorphic_allocator
-  select_on_container_copy_construction (void) const noexcept;
+          std::size_t
+          max_size (void) const noexcept;
 
-  memory_resource* resource (void) const noexcept;
+          polymorphic_allocator
+          select_on_container_copy_construction (void) const noexcept;
 
-private:
-  memory_resource* res_;
-};
+          memory_resource*
+          resource (void) const noexcept;
 
-// ----------------------------------------------------------------------------
-} /* namespace pmr */
-} /* namespace estd */
+        private:
+
+          memory_resource* res_;
+        };
+
+    // ------------------------------------------------------------------------
+    } /* namespace pmr */
+  } /* namespace estd */
 } /* namespace os */
 
 // ===== Inline & template implementations ====================================
 
 namespace os
 {
-namespace estd
-{
-namespace pmr
-{
-
-// ============================================================================
-
-/**
- * @details
- * If not set explicitly by the user, this function
- * will return an instance of `malloc_memory_resource`
- * on bare metal platforms and of
- * `malloc_memory_resource` on POSIX platforms.
- */
-inline memory_resource*
-get_default_resource (void) noexcept
-{
-  rtos::memory::init_once_default_resource ();
-  return default_resource;
-}
-
-// ============================================================================
-
-template <typename T>
-polymorphic_allocator<T>::polymorphic_allocator () noexcept
-    : res_ (get_default_resource ())
-{
-  ;
-}
-
-template <typename T>
-inline polymorphic_allocator<T>::polymorphic_allocator (
-    memory_resource* r) noexcept : res_ (r)
-{
-  ;
-}
-
-template <typename T>
-template <typename U>
-inline polymorphic_allocator<T>::polymorphic_allocator (
-    polymorphic_allocator<U> const& other) noexcept : res_ (other.resource ())
-{
-  ;
-}
-
-template <typename T>
-inline typename polymorphic_allocator<T>::value_type*
-polymorphic_allocator<T>::allocate (std::size_t n)
-{
-  if (n > max_size ())
+  namespace estd
+  {
+    namespace pmr
     {
-      estd::__throw_system_error (
-          EINVAL, "polymorphic_allocator<T>::allocate(std::size_t n)"
+
+      // ======================================================================
+
+      /**
+       * @details
+       * If not set explicitly by the user, this function
+       * will return an instance of `malloc_memory_resource`
+       * on bare metal platforms and of
+       * `malloc_memory_resource` on POSIX platforms.
+       */
+      inline memory_resource*
+      get_default_resource (void) noexcept
+      {
+        rtos::memory::init_once_default_resource ();
+        return default_resource;
+      }
+
+      // ======================================================================
+
+      template<typename T>
+        polymorphic_allocator<T>::polymorphic_allocator () noexcept :
+        res_(get_default_resource())
+          {
+            ;
+          }
+
+      template<typename T>
+        inline
+        polymorphic_allocator<T>::polymorphic_allocator (memory_resource* r) noexcept :
+        res_(r)
+          {
+            ;
+          }
+
+      template<typename T>
+        template<typename U>
+          inline
+          polymorphic_allocator<T>::polymorphic_allocator (
+              polymorphic_allocator<U> const & other) noexcept :
+          res_(other.resource())
+            {
+              ;
+            }
+
+      template<typename T>
+        inline typename polymorphic_allocator<T>::value_type*
+        polymorphic_allocator<T>::allocate (std::size_t n)
+        {
+          if (n > max_size ())
+            {
+              estd::__throw_system_error (
+                  EINVAL, "polymorphic_allocator<T>::allocate(std::size_t n)"
                   " 'n' exceeds maximum supported size");
-    }
+            }
 
-  return static_cast<value_type*> (
-      res_->allocate (n * sizeof (value_type), alignof (value_type)));
-}
+          return static_cast<value_type*> (res_->allocate (
+              n * sizeof(value_type), alignof(value_type)));
+        }
 
-template <typename T>
-inline void
-polymorphic_allocator<T>::deallocate (value_type* p, std::size_t n) noexcept
-{
-  assert (n <= max_size ());
-  res_->deallocate (p, n * sizeof (value_type), alignof (value_type));
-}
+      template<typename T>
+        inline void
+        polymorphic_allocator<T>::deallocate (value_type* p, std::size_t n) noexcept
+        {
+          assert(n <= max_size ());
+          res_->deallocate (p, n * sizeof(value_type), alignof(value_type));
+        }
 
-template <typename T>
-inline std::size_t
-polymorphic_allocator<T>::max_size (void) const noexcept
-{
-  return std::numeric_limits<std::size_t>::max () / sizeof (value_type);
-}
+      template<typename T>
+        inline std::size_t
+        polymorphic_allocator<T>::max_size (void) const noexcept
+        {
+          return std::numeric_limits<std::size_t>::max () / sizeof(value_type);
+        }
 
-template <typename T>
-inline polymorphic_allocator<T>
-polymorphic_allocator<T>::select_on_container_copy_construction (
-    void) const noexcept
-{
-  return polymorphic_allocator ();
-}
+      template<typename T>
+        inline polymorphic_allocator<T>
+        polymorphic_allocator<T>::select_on_container_copy_construction (
+            void) const noexcept
+        {
+          return polymorphic_allocator ();
+        }
 
-template <typename T>
-inline memory_resource*
-polymorphic_allocator<T>::resource (void) const noexcept
-{
-  return res_;
-}
+      template<typename T>
+        inline memory_resource*
+        polymorphic_allocator<T>::resource (void) const noexcept
+        {
+          return res_;
+        }
 
-// ============================================================================
+      // ======================================================================
 
-template <typename T, typename U>
-inline bool
-operator== (polymorphic_allocator<T> const& lhs,
-            polymorphic_allocator<U> const& rhs) noexcept
-{
-  return *lhs.resource () == *rhs.resource ();
-}
+      template<typename T, typename U>
+        inline bool
+        operator== (polymorphic_allocator<T> const & lhs,
+                    polymorphic_allocator<U> const & rhs) noexcept
+        {
+          return *lhs.resource () == *rhs.resource ();
+        }
 
-template <typename T, typename U>
-inline bool
-operator!= (polymorphic_allocator<T> const& lhs,
-            polymorphic_allocator<U> const& rhs) noexcept
-{
-  return !(lhs == rhs);
-}
+      template<typename T, typename U>
+        inline bool
+        operator!= (polymorphic_allocator<T> const & lhs,
+                    polymorphic_allocator<U> const & rhs) noexcept
+        {
+          return !(lhs == rhs);
+        }
 
-// ----------------------------------------------------------------------------
-} /* namespace pmr */
-} /* namespace estd */
+    // ------------------------------------------------------------------------
+    } /* namespace pmr */
+  } /* namespace estd */
 } /* namespace os */
 
 // ----------------------------------------------------------------------------

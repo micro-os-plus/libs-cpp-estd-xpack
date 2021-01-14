@@ -38,8 +38,8 @@
  * @brief Global synchronised new/delete definitions.
  */
 
-#include <micro-os-plus/estd/memory_resource>
 #include <micro-os-plus/rtos/os.h>
+#include <micro-os-plus/estd/memory_resource>
 
 // ----------------------------------------------------------------------------
 
@@ -49,14 +49,14 @@ using namespace os;
 
 namespace
 {
-/**
- * @brief The current new handler.
- *
- * @details
- * The initial `new_handler` is a null pointer, initialised as
- * part of the .bss section.
- */
-std::new_handler new_handler_;
+  /**
+   * @brief The current new handler.
+   *
+   * @details
+   * The initial `new_handler` is a null pointer, initialised as
+   * part of the .bss section.
+   */
+  std::new_handler new_handler_;
 }
 
 /**
@@ -66,53 +66,54 @@ std::new_handler new_handler_;
 
 namespace std
 {
-// Constant to be used as parameter to differentiate
-// the `noexcept` functions.
-const nothrow_t nothrow = nothrow_t{};
+  // Constant to be used as parameter to differentiate
+  // the `noexcept` functions.
+  const nothrow_t nothrow = nothrow_t
+    { };
 
-/**
- * @brief Establishes the function designated by handler
- * as the current `new_handler`.
- * @param handler Pointer to user function.
- * @return The previous handler.
- *
- * @details
- * This handler is invoked when the standard operator new()
- * detect an out of memory condition, to give a chance to the
- * application process it properly. If the application
- * can arrange for more memory to be used for allocation,
- * this function should return and the allocation process is retried.
- * If not, this function should gracefully shut down and restart.
- *
- * The initial `new_handler` is a null pointer.
- */
-new_handler
-set_new_handler (new_handler handler) noexcept
-{
-  trace::printf ("std::%s(%p) \n", __func__, handler);
+  /**
+   * @brief Establishes the function designated by handler
+   * as the current `new_handler`.
+   * @param handler Pointer to user function.
+   * @return The previous handler.
+   *
+   * @details
+   * This handler is invoked when the standard operator new()
+   * detect an out of memory condition, to give a chance to the
+   * application process it properly. If the application
+   * can arrange for more memory to be used for allocation,
+   * this function should return and the allocation process is retried.
+   * If not, this function should gracefully shut down and restart.
+   *
+   * The initial `new_handler` is a null pointer.
+   */
+  new_handler
+  set_new_handler (new_handler handler) noexcept
+  {
+    trace::printf ("std::%s(%p) \n", __func__, handler);
 
-  new_handler prev_handler;
+    new_handler prev_handler;
 
-  prev_handler = new_handler_;
-  new_handler_ = handler;
+    prev_handler = new_handler_;
+    new_handler_ = handler;
 
-  return prev_handler;
-}
+    return prev_handler;
+  }
 
-/**
- * @brief Get the current handler.
- * @par Parameters
- *  None.
- * @return Pointer to user function, or `nullptr` if not set.
- *
- * @details
- * The initial `new_handler` is a null pointer.
- */
-new_handler
-get_new_handler () noexcept
-{
-  return new_handler_;
-}
+  /**
+   * @brief Get the current handler.
+   * @par Parameters
+   *  None.
+   * @return Pointer to user function, or `nullptr` if not set.
+   *
+   * @details
+   * The initial `new_handler` is a null pointer.
+   */
+  new_handler
+  get_new_handler () noexcept
+  {
+    return new_handler_;
+  }
 
 } /* namespace std */
 
@@ -142,10 +143,11 @@ get_new_handler () noexcept
  *
  * @warning Cannot be invoked from Interrupt Service Routines.
  */
-void* __attribute__ ((weak))
+void *
+__attribute__((weak))
 operator new (std::size_t bytes)
 {
-  assert (!rtos::interrupts::in_handler_mode ());
+  assert(!rtos::interrupts::in_handler_mode ());
   if (bytes == 0)
     {
       bytes = 1;
@@ -203,11 +205,12 @@ operator new (std::size_t bytes)
  *
  * @warning Cannot be invoked from Interrupt Service Routines.
  */
-void* __attribute__ ((weak))
+void*
+__attribute__((weak))
 operator new (std::size_t bytes,
-              const std::nothrow_t& nothrow __attribute__ ((unused))) noexcept
+              const std::nothrow_t& nothrow __attribute__((unused))) noexcept
 {
-  assert (!rtos::interrupts::in_handler_mode ());
+  assert(!rtos::interrupts::in_handler_mode ());
 
   if (bytes == 0)
     {
@@ -261,7 +264,8 @@ operator new (std::size_t bytes,
  *
  * @warning Cannot be invoked from Interrupt Service Routines.
  */
-void* __attribute__ ((weak))
+void*
+__attribute__((weak))
 operator new[] (std::size_t bytes)
 {
   return ::operator new (bytes);
@@ -283,9 +287,10 @@ operator new[] (std::size_t bytes)
  *
  * @warning Cannot be invoked from Interrupt Service Routines.
  */
-void* __attribute__ ((weak))
-operator new[] (std::size_t bytes, const std::nothrow_t& nothrow
-                __attribute__ ((unused))) noexcept
+void*
+__attribute__((weak))
+operator new[] (std::size_t bytes,
+                const std::nothrow_t& nothrow __attribute__((unused))) noexcept
 {
   return ::operator new (bytes, std::nothrow);
 }
@@ -315,14 +320,15 @@ operator new[] (std::size_t bytes, const std::nothrow_t& nothrow
  *
  * @warning Cannot be invoked from Interrupt Service Routines.
  */
-void __attribute__ ((weak))
-operator delete (void* ptr)noexcept
+void
+__attribute__((weak))
+operator delete (void* ptr) noexcept
 {
 #if defined(OS_TRACE_LIBCPP_OPERATOR_NEW)
   trace::printf ("::%s(%p)\n", __func__, ptr);
 #endif
 
-  assert (!rtos::interrupts::in_handler_mode ());
+  assert(!rtos::interrupts::in_handler_mode ());
 
   if (ptr)
     {
@@ -338,7 +344,8 @@ operator delete (void* ptr)noexcept
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wc++14-compat"
 
-void operator delete (void* ptr, std::size_t bytes)noexcept;
+void
+operator delete (void* ptr, std::size_t bytes) noexcept;
 
 /**
  * @brief Deallocate the dynamically allocated object instance.
@@ -364,14 +371,15 @@ void operator delete (void* ptr, std::size_t bytes)noexcept;
  *
  * @warning Cannot be invoked from Interrupt Service Routines.
  */
-void __attribute__ ((weak))
-operator delete (void* ptr, std::size_t bytes)noexcept
+void
+__attribute__((weak))
+operator delete (void* ptr, std::size_t bytes) noexcept
 {
 #if defined(OS_TRACE_LIBCPP_OPERATOR_NEW)
   trace::printf ("::%s(%p,%u)\n", __func__, ptr, bytes);
 #endif
 
-  assert (!rtos::interrupts::in_handler_mode ());
+  assert(!rtos::interrupts::in_handler_mode ());
 
   if (ptr)
     {
@@ -403,15 +411,16 @@ operator delete (void* ptr, std::size_t bytes)noexcept
  *
  * @warning Cannot be invoked from Interrupt Service Routines.
  */
-void __attribute__ ((weak))
-operator delete (void* ptr, const std::nothrow_t& nothrow
-                 __attribute__ ((unused)))noexcept
+void
+__attribute__((weak))
+operator delete (void* ptr,
+                 const std::nothrow_t& nothrow __attribute__((unused))) noexcept
 {
 #if defined(OS_TRACE_LIBCPP_OPERATOR_NEW)
   trace::printf ("::%s(%p)\n", __func__, ptr);
 #endif
 
-  assert (!rtos::interrupts::in_handler_mode ());
+  assert(!rtos::interrupts::in_handler_mode ());
 
   if (ptr)
     {
@@ -441,7 +450,8 @@ operator delete (void* ptr, const std::nothrow_t& nothrow
  *
  * @warning Cannot be invoked from Interrupt Service Routines.
  */
-void __attribute__ ((weak))
+void
+__attribute__((weak))
 operator delete[] (void* ptr) noexcept
 {
   ::operator delete (ptr);
@@ -450,7 +460,8 @@ operator delete[] (void* ptr) noexcept
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wc++14-compat"
 
-void operator delete[] (void* ptr, std::size_t bytes) noexcept;
+void
+operator delete[] (void* ptr, std::size_t bytes) noexcept;
 
 /**
  * @brief Deallocate the dynamically allocated array of object.
@@ -471,7 +482,8 @@ void operator delete[] (void* ptr, std::size_t bytes) noexcept;
  *
  * @warning Cannot be invoked from Interrupt Service Routines.
  */
-void __attribute__ ((weak))
+void
+__attribute__((weak))
 operator delete[] (void* ptr, std::size_t bytes) noexcept
 {
   ::operator delete (ptr, bytes);
@@ -500,7 +512,8 @@ operator delete[] (void* ptr, std::size_t bytes) noexcept
  *
  * @warning Cannot be invoked from Interrupt Service Routines.
  */
-void __attribute__ ((weak))
+void
+__attribute__((weak))
 operator delete[] (void* ptr, const std::nothrow_t& nothrow) noexcept
 {
   ::operator delete (ptr, nothrow);

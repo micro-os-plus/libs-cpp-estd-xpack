@@ -31,101 +31,101 @@
 
 namespace os
 {
-namespace estd
-{
-// ============================================================================
+  namespace estd
+  {
+    // ========================================================================
 
-void
-mutex::lock ()
-{
-  os::rtos::result_t res;
-  res = nm_.lock ();
-  if (res != os::rtos::result::ok)
+    void
+    mutex::lock ()
     {
+      os::rtos::result_t res;
+      res = nm_.lock ();
+      if (res != os::rtos::result::ok)
+        {
+          os::estd::__throw_cmsis_error (static_cast<int> (res),
+                                         "mutex lock failed");
+        }
+    }
+
+    bool
+    mutex::try_lock ()
+    {
+      os::rtos::result_t res;
+      res = nm_.try_lock ();
+      if (res == os::rtos::result::ok)
+        {
+          return true;
+        }
+      else if (res == EWOULDBLOCK)
+        {
+          return false;
+        }
+
       os::estd::__throw_cmsis_error (static_cast<int> (res),
-                                     "mutex lock failed");
-    }
-}
-
-bool
-mutex::try_lock ()
-{
-  os::rtos::result_t res;
-  res = nm_.try_lock ();
-  if (res == os::rtos::result::ok)
-    {
-      return true;
-    }
-  else if (res == EWOULDBLOCK)
-    {
-      return false;
+                                     "mutex try_lock failed");
+      // return false;
     }
 
-  os::estd::__throw_cmsis_error (static_cast<int> (res),
-                                 "mutex try_lock failed");
-  // return false;
-}
-
-void
-mutex::unlock ()
-{
-  os::rtos::result_t res;
-  res = nm_.unlock ();
-  if (res != os::rtos::result::ok)
+    void
+    mutex::unlock ()
     {
+      os::rtos::result_t res;
+      res = nm_.unlock ();
+      if (res != os::rtos::result::ok)
+        {
+          os::estd::__throw_cmsis_error (static_cast<int> (res),
+                                         "mutex unlock failed");
+        }
+    }
+
+    // ========================================================================
+
+    void
+    recursive_mutex::lock ()
+    {
+      os::rtos::result_t res;
+      res = nm_.lock ();
+      if (res != os::rtos::result::ok)
+        {
+          os::estd::__throw_cmsis_error (static_cast<int> (res),
+                                         "recursive_mutex lock failed");
+        }
+    }
+
+    bool
+    recursive_mutex::try_lock () noexcept
+    {
+      os::rtos::result_t res;
+      res = nm_.try_lock ();
+      if (res == os::rtos::result::ok)
+        {
+          return true;
+        }
+      else if (res == EWOULDBLOCK)
+        {
+          return false;
+        }
+
       os::estd::__throw_cmsis_error (static_cast<int> (res),
-                                     "mutex unlock failed");
+                                     "recursive_mutex try_lock failed");
+      //return false;
     }
-}
 
-// ============================================================================
-
-void
-recursive_mutex::lock ()
-{
-  os::rtos::result_t res;
-  res = nm_.lock ();
-  if (res != os::rtos::result::ok)
+    void
+    recursive_mutex::unlock ()
     {
-      os::estd::__throw_cmsis_error (static_cast<int> (res),
-                                     "recursive_mutex lock failed");
-    }
-}
-
-bool
-recursive_mutex::try_lock () noexcept
-{
-  os::rtos::result_t res;
-  res = nm_.try_lock ();
-  if (res == os::rtos::result::ok)
-    {
-      return true;
-    }
-  else if (res == EWOULDBLOCK)
-    {
-      return false;
+      os::rtos::result_t res;
+      res = nm_.unlock ();
+      if (res != os::rtos::result::ok)
+        {
+          os::estd::__throw_cmsis_error (static_cast<int> (res),
+                                         "recursive_mutex unlock failed");
+        }
     }
 
-  os::estd::__throw_cmsis_error (static_cast<int> (res),
-                                 "recursive_mutex try_lock failed");
-  // return false;
-}
+  // ==========================================================================
 
-void
-recursive_mutex::unlock ()
-{
-  os::rtos::result_t res;
-  res = nm_.unlock ();
-  if (res != os::rtos::result::ok)
-    {
-      os::estd::__throw_cmsis_error (static_cast<int> (res),
-                                     "recursive_mutex unlock failed");
-    }
-}
-
-// ============================================================================
-
-} /* namespace estd */
+  } /* namespace estd */
 } /* namespace os */
 
 // ----------------------------------------------------------------------------

@@ -42,8 +42,8 @@
 #include_next <thread>
 #pragma GCC diagnostic pop
 
-#include <functional>
 #include <type_traits>
+#include <functional>
 
 #include <micro-os-plus/rtos/os.h>
 
@@ -53,63 +53,63 @@
 
 namespace os
 {
-namespace estd
-{
-// ----------------------------------------------------------------------------
+  namespace estd
+  {
+  // ------------------------------------------------------------------------
 
-/**
- * @ingroup cmsis-plus-iso
- * @{
- */
+  /**
+   * @ingroup cmsis-plus-iso
+   * @{
+   */
 
 #include "thread_internal.h"
 
-/**
- * @}
- */
+  /**
+   * @}
+   */
 
-// ============================================================================
-} /* namespace estd */
+  // ==========================================================================
+  } /* namespace estd */
 } /* namespace os */
 
 namespace std
 {
-// Define a std::hash specialisation.
-template <>
-struct hash<os::estd::thread::id>
-    : public std::unary_function<os::estd::thread::id, size_t>
-{
-  inline size_t
-  operator() (os::estd::thread::id v) const
-  {
-    return std::hash<os::estd::thread::native_handle_type> () (
-        v.native_thread_);
-  }
-};
+  // Define a std::hash specialisation.
+  template<>
+    struct hash<os::estd::thread::id> : public std::unary_function<
+        os::estd::thread::id, size_t>
+    {
+      inline size_t
+      operator() (os::estd::thread::id v) const
+      {
+        return std::hash<os::estd::thread::native_handle_type> () (
+            v.native_thread_);
+      }
+    };
 }
 
 #if defined(OS_HAS_STD_THREADS)
 
 namespace std
 {
-/**
- * @ingroup cmsis-plus-iso
- * @{
- */
+  /**
+   * @ingroup cmsis-plus-iso
+   * @{
+   */
 
 #include "thread_internal.h"
 
-// Define a std::hash specialisation.
-template <>
-struct hash<std::thread::id>
-    : public std::unary_function<std::thread::id, size_t>
-{
-  inline size_t
-  operator() (std::thread::id v) const
-  {
-    return std::hash<std::thread::native_handle_type> () (v.native_thread_);
-  }
-};
+  // Define a std::hash specialisation.
+  template<>
+    struct hash<std::thread::id> : public std::unary_function<std::thread::id,
+        size_t>
+    {
+      inline size_t
+      operator() (std::thread::id v) const
+      {
+        return std::hash<std::thread::native_handle_type> () (v.native_thread_);
+      }
+    };
 
 /**
  * @}

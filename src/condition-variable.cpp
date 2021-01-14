@@ -31,66 +31,68 @@
 
 namespace os
 {
-namespace estd
-{
-// ============================================================================
+  namespace estd
+  {
+    // ========================================================================
 
-void
-condition_variable::notify_one () noexcept
-{
-  os::rtos::result_t res;
-  res = ncv_.signal ();
-  if (res != os::rtos::result::ok)
+    void
+    condition_variable::notify_one () noexcept
     {
-      os::estd::__throw_cmsis_error (
-          static_cast<int> (res), "condition_variable::notify_one() failed");
+      os::rtos::result_t res;
+      res = ncv_.signal ();
+      if (res != os::rtos::result::ok)
+        {
+          os::estd::__throw_cmsis_error (
+              static_cast<int> (res),
+              "condition_variable::notify_one() failed");
+        }
     }
-}
 
-void
-condition_variable::notify_all () noexcept
-{
-  os::rtos::result_t res;
-  res = ncv_.broadcast ();
-  if (res != os::rtos::result::ok)
+    void
+    condition_variable::notify_all () noexcept
     {
-      os::estd::__throw_cmsis_error (
-          static_cast<int> (res), "condition_variable::notify_all() failed");
+      os::rtos::result_t res;
+      res = ncv_.broadcast ();
+      if (res != os::rtos::result::ok)
+        {
+          os::estd::__throw_cmsis_error (
+              static_cast<int> (res),
+              "condition_variable::notify_all() failed");
+        }
     }
-}
 
-void
-condition_variable::wait (std::unique_lock<mutex>& lk)
-{
-  if (!lk.owns_lock ())
+    void
+    condition_variable::wait (std::unique_lock<mutex>& lk)
     {
-      os::estd::__throw_system_error (
-          EPERM, "condition_variable::wait: mutex not locked");
+      if (!lk.owns_lock ())
+        {
+          os::estd::__throw_system_error (
+              EPERM, "condition_variable::wait: mutex not locked");
+        }
+      os::rtos::result_t res = ncv_.wait ((*(lk.mutex ()->native_handle ())));
+      if (res != os::rtos::result::ok)
+        {
+          os::estd::__throw_cmsis_error (static_cast<int> (res),
+                                         "condition_variable wait failed");
+        }
     }
-  os::rtos::result_t res = ncv_.wait ((*(lk.mutex ()->native_handle ())));
-  if (res != os::rtos::result::ok)
-    {
-      os::estd::__throw_cmsis_error (static_cast<int> (res),
-                                     "condition_variable wait failed");
-    }
-}
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-parameter"
 #pragma GCC diagnostic ignored "-Wmissing-noreturn"
 
-void
-notify_all_at_thread_exit (condition_variable& cond,
-                           std::unique_lock<mutex> lk)
-{
-  //__thread_local_data()->notify_all_at_thread_exit(&cond, lk.release());
-  std::abort (); // Not implemented
-}
+    void
+    notify_all_at_thread_exit (condition_variable& cond,
+                               std::unique_lock<mutex> lk)
+    {
+      //__thread_local_data()->notify_all_at_thread_exit(&cond, lk.release());
+      std::abort (); // Not implemented
+    }
 
 #pragma GCC diagnostic pop
 
-// ============================================================================
-} /* namespace estd */
+  // ==========================================================================
+  } /* namespace estd */
 } /* namespace os */
 
 // ----------------------------------------------------------------------------
