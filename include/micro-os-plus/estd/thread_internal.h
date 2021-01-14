@@ -28,6 +28,7 @@
 // ============================================================================
 // This file is for internal use in µOS++ and should not be included
 // in applications.
+
 /*
  * (References are to ISO/IEC DIS 14882:2017)
  *
@@ -40,13 +41,14 @@
  * - that has a trivial, non-deleted destructor (15.4).
  */
 
+// ----------------------------------------------------------------------------
+
 /**
  * @brief Standard thread.
  */
 class thread
 {
 public:
-
   using native_handle_type = os::rtos::thread*; // See 33.2.3
 
   /**
@@ -70,17 +72,16 @@ public:
   public:
     id () noexcept;
 
-    explicit
-    id (native_handle_type system_thread) noexcept;
+    explicit id (native_handle_type system_thread) noexcept;
 
     id (const id&) = default;
     id&
-    operator= (const id&) = default;
+    operator= (const id&)
+        = default;
 
     ~id () = default;
 
   private:
-
     friend class thread;
     friend struct std::hash<thread::id>;
 
@@ -97,10 +98,9 @@ public:
 
   thread () noexcept = default;
 
-  template<typename F, //
-      typename ... Args>
-    explicit
-    thread (F&& f, Args&&... args);
+  template <typename F, //
+            typename... Args>
+  explicit thread (F&& f, Args&&... args);
 
   ~thread ();
 
@@ -108,7 +108,8 @@ public:
   thread (thread&& t) noexcept;
 
   thread&
-  operator= (const thread&) = delete;
+  operator= (const thread&)
+      = delete;
   thread&
   operator= (thread&& t) noexcept;
 
@@ -136,14 +137,13 @@ public:
   hardware_concurrency (void) noexcept;
 
 private:
+  template <typename F_T>
+  static void
+  run_function_object (const void* func_object);
 
-  template<typename F_T>
-    static void
-    run_function_object (const void* func_object);
-
-  template<typename F_T>
-    static void
-    delete_function_object (const void* func_obj);
+  template <typename F_T>
+  static void
+  delete_function_object (const void* func_obj);
 
   void
   delete_system_thread (void);
@@ -157,14 +157,13 @@ private:
   function_object_deleter_t function_object_deleter_ = nullptr;
 
 public:
-
 };
 
 // Enforce the copyable requirement.
-static_assert(std::is_trivially_copyable<thread::id>::value,
-    "thread::id must be trivially copyable");
+static_assert (std::is_trivially_copyable<thread::id>::value,
+               "thread::id must be trivially copyable");
 
-// ========================================================================
+// ============================================================================
 
 void
 swap (thread& x, thread& y) noexcept;
@@ -193,13 +192,13 @@ operator<<(basic_ostream<charT, traits>& out, thread::id id);
 #endif
 
 // Hash support
-template<class T>
-  struct hash;
+template <class T>
+struct hash;
 
-template<>
-  struct hash<thread::id> ;
+template <>
+struct hash<thread::id>;
 
-// ========================================================================
+// ============================================================================
 /**
  * @brief A namespace for functions applying to the current thread.
  *
@@ -226,25 +225,25 @@ namespace this_thread
    * @details
    * extra Clock_T is an extension to the standard
    */
-  template<typename Clock_T = os::estd::chrono::systick_clock, typename Rep_T,
-      typename Period_T>
-    constexpr void
-    sleep_for (const std::chrono::duration<Rep_T, Period_T>& rel_time);
+  template <typename Clock_T = os::estd::chrono::systick_clock, typename Rep_T,
+            typename Period_T>
+  constexpr void
+  sleep_for (const std::chrono::duration<Rep_T, Period_T>& rel_time);
 
   /**
    * @brief Sleep until a given time point.
    * @param [in] abs_time
    */
-  template<typename Clock_T, typename Duration_T>
-    void
-    sleep_until (const std::chrono::time_point<Clock_T, Duration_T>& abs_time);
+  template <typename Clock_T, typename Duration_T>
+  void
+  sleep_until (const std::chrono::time_point<Clock_T, Duration_T>& abs_time);
 
-} /* namespace this_thread */
+} // namespace this_thread
 
-// ========================================================================
+// ============================================================================
 // Inline & template implementations.
 
-// ========================================================================
+// ============================================================================
 
 inline void
 swap (thread& x, thread& y) noexcept
@@ -288,23 +287,20 @@ operator>= (thread::id x, thread::id y) noexcept
   return !(x < y);
 }
 
-// ========================================================================
+// ============================================================================
 
-inline
-thread::id::id () noexcept :
-native_thread_ ( nullptr)
-  {
-    ;
-  }
+inline thread::id::id () noexcept : native_thread_ (nullptr)
+{
+  ;
+}
 
-inline
-thread::id::id (native_handle_type native_thread) noexcept :
-native_thread_ ( native_thread)
-  {
-    ;
-  }
+inline thread::id::id (native_handle_type native_thread) noexcept
+    : native_thread_ (native_thread)
+{
+  ;
+}
 
-// ------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
 
 inline thread::id
 thread::get_id () const noexcept
@@ -324,75 +320,72 @@ thread::hardware_concurrency () noexcept
   return 1;
 }
 
-template<typename F_T>
-  void
-  thread::run_function_object (const void* func_obj)
-  {
-    os::trace::printf ("%s()\n", __PRETTY_FUNCTION__);
+template <typename F_T>
+void
+thread::run_function_object (const void* func_obj)
+{
+  os::trace::printf ("%s()\n", __PRETTY_FUNCTION__);
 
-    using Function_object = F_T;
-    const Function_object* f = static_cast<const Function_object*> (func_obj);
-    (*f) ();
-  }
+  using Function_object = F_T;
+  const Function_object* f = static_cast<const Function_object*> (func_obj);
+  (*f) ();
+}
 
-template<typename F_T>
-  void
-  thread::delete_function_object (const void* func_obj)
-  {
-    os::trace::printf ("%s()\n", __PRETTY_FUNCTION__);
+template <typename F_T>
+void
+thread::delete_function_object (const void* func_obj)
+{
+  os::trace::printf ("%s()\n", __PRETTY_FUNCTION__);
 
-    using Function_object = F_T;
-    const Function_object* f = static_cast<const Function_object*> (func_obj);
+  using Function_object = F_T;
+  const Function_object* f = static_cast<const Function_object*> (func_obj);
 
-    // The delete now has the knowledge required to
-    // correctly delete the object (i.e. the object size).
-    delete f;
-  }
+  // The delete now has the knowledge required to
+  // correctly delete the object (i.e. the object size).
+  delete f;
+}
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Waggregate-return"
 
-template<typename Callable_T, typename ... Args_T>
-  thread::thread (Callable_T&& f, Args_T&&... args)
-  {
-    // static_assert(std::is_same<Attr_T, os::rtos::thread::attr_t>::value, "first param must be thread_attr_t*");
+template <typename Callable_T, typename... Args_T>
+thread::thread (Callable_T&& f, Args_T&&... args)
+{
+  // static_assert(std::is_same<Attr_T, os::rtos::thread::attr_t>::value,
+  // "first param must be thread_attr_t*");
 
-    os::trace::printf ("%s() @%p\n", __PRETTY_FUNCTION__, this);
+  os::trace::printf ("%s() @%p\n", __PRETTY_FUNCTION__, this);
 
-    using Function_object = decltype(std::bind (std::forward<Callable_T> (f),
-            std::forward<Args_T>(args)...));
+  using Function_object = decltype (std::bind (
+      std::forward<Callable_T> (f), std::forward<Args_T> (args)...));
 
-    // Dynamic allocation! The size depends on the number of arguments.
-    // This creates a small problem, since both running the function
-    // and deleting the object requires the type. It is passes as
-    // template functions.
-    Function_object* funct_obj = new Function_object (
-        std::bind (std::forward<Callable_T> (f),
-                   std::forward<Args_T>(args)...));
+  // Dynamic allocation! The size depends on the number of arguments.
+  // This creates a small problem, since both running the function
+  // and deleting the object requires the type. It is passes as
+  // template functions.
+  Function_object* funct_obj = new Function_object (std::bind (
+      std::forward<Callable_T> (f), std::forward<Args_T> (args)...));
 
-    // The function to start the thread is a custom proxy that
-    // knows how to get the variadic arguments.
-    id_ = id
-      { new os::rtos::thread (
-          reinterpret_cast<os::rtos::thread::func_t> (&run_function_object<
-              Function_object> ),
-          reinterpret_cast<os::rtos::thread::func_args_t> (funct_obj)) };
+  // The function to start the thread is a custom proxy that
+  // knows how to get the variadic arguments.
+  id_ = id{ new os::rtos::thread (
+      reinterpret_cast<os::rtos::thread::func_t> (
+          &run_function_object<Function_object>),
+      reinterpret_cast<os::rtos::thread::func_args_t> (funct_obj)) };
 
-    // The deleter, to be used during destruction.
-    function_object_deleter_ =
-        reinterpret_cast<function_object_deleter_t> (&delete_function_object<
-            Function_object> );
-  }
+  // The deleter, to be used during destruction.
+  function_object_deleter_ = reinterpret_cast<function_object_deleter_t> (
+      &delete_function_object<Function_object>);
+}
 
 #pragma GCC diagnostic pop
 
-// ========================================================================
+// ============================================================================
 
 namespace this_thread
 {
 
-  inline void
-  __attribute__((always_inline))
+  inline __attribute__ ((always_inline)) void
   yield () noexcept
   {
     os::rtos::this_thread::yield ();
@@ -452,94 +445,94 @@ namespace this_thread
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Waggregate-return"
 
-  template<typename Clock_T, class Rep_T, class Period_T>
-    constexpr void
-    sleep_for (const std::chrono::duration<Rep_T, Period_T>& rel_time)
-    {
-      using namespace std::chrono;
+  template <typename Clock_T, class Rep_T, class Period_T>
+  constexpr void
+  sleep_for (const std::chrono::duration<Rep_T, Period_T>& rel_time)
+  {
+    using namespace std::chrono;
 
-      using clock = Clock_T;
-      using sleep_rep = typename clock::sleep_rep;
+    using clock = Clock_T;
+    using sleep_rep = typename clock::sleep_rep;
 
-      if (rel_time > duration<Rep_T, Period_T>::zero ())
-        {
-          sleep_rep d = static_cast<sleep_rep> (os::estd::chrono::ceil<
-              typename clock::duration> (rel_time).count ());
+    if (rel_time > duration<Rep_T, Period_T>::zero ())
+      {
+        sleep_rep d = static_cast<sleep_rep> (
+            os::estd::chrono::ceil<typename clock::duration> (rel_time)
+                .count ());
 
-          clock::sleep_for (d);
-        }
-    }
+        clock::sleep_for (d);
+      }
+  }
 
 #pragma GCC diagnostic pop
 
-  template<typename Clock_T, typename Duration_T>
-    void
-    sleep_until (const std::chrono::time_point<Clock_T, Duration_T>& abs_time)
-    {
-      using clock = Clock_T;
+  template <typename Clock_T, typename Duration_T>
+  void
+  sleep_until (const std::chrono::time_point<Clock_T, Duration_T>& abs_time)
+  {
+    using clock = Clock_T;
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Waggregate-return"
 
-      auto now = clock::now ();
+    auto now = clock::now ();
 
-      while (now < abs_time)
-        {
-          sleep_for (abs_time - now);
-          now = clock::now ();
-        }
+    while (now < abs_time)
+      {
+        sleep_for (abs_time - now);
+        now = clock::now ();
+      }
 
 #pragma GCC diagnostic pop
+  }
 
-    }
-
-  template<typename Duration_T>
-    void
-    sleep_until (
-        const std::chrono::time_point<os::estd::chrono::realtime_clock,
-            Duration_T>& abs_time)
-    {
-      using clock = os::estd::chrono::realtime_clock;
+  template <typename Duration_T>
+  void
+  sleep_until (const std::chrono::time_point<os::estd::chrono::realtime_clock,
+                                             Duration_T>& abs_time)
+  {
+    using clock = os::estd::chrono::realtime_clock;
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Waggregate-return"
 
-      auto now = clock::now ();
-      while (now < abs_time)
-        {
-          typename clock::sleep_rep d = (os::estd::chrono::ceil<
-              typename clock::sleep_duration> (abs_time - now)).count ();
-          clock::sleep_for (d);
-          now = clock::now ();
-        }
+    auto now = clock::now ();
+    while (now < abs_time)
+      {
+        typename clock::sleep_rep d
+            = (os::estd::chrono::ceil<typename clock::sleep_duration> (abs_time
+                                                                       - now))
+                  .count ();
+        clock::sleep_for (d);
+        now = clock::now ();
+      }
 
 #pragma GCC diagnostic pop
+  }
 
-    }
-
-  template<typename Duration_T>
-    void
-    sleep_until (
-        const std::chrono::time_point<os::estd::chrono::systick_clock,
-            Duration_T>& abs_time)
-    {
-      using clock = os::estd::chrono::systick_clock;
+  template <typename Duration_T>
+  void
+  sleep_until (const std::chrono::time_point<os::estd::chrono::systick_clock,
+                                             Duration_T>& abs_time)
+  {
+    using clock = os::estd::chrono::systick_clock;
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Waggregate-return"
 
-      auto now = clock::now ();
-      while (now < abs_time)
-        {
-          typename clock::sleep_rep d = (os::estd::chrono::ceil<
-              typename clock::sleep_duration> (abs_time - now)).count ();
-          clock::sleep_for (d);
-          now = clock::now ();
-        }
+    auto now = clock::now ();
+    while (now < abs_time)
+      {
+        typename clock::sleep_rep d
+            = (os::estd::chrono::ceil<typename clock::sleep_duration> (abs_time
+                                                                       - now))
+                  .count ();
+        clock::sleep_for (d);
+        now = clock::now ();
+      }
 
 #pragma GCC diagnostic pop
-
-    }
-} /* namespace this_thread */
+  }
+} // namespace this_thread
 
 // ----------------------------------------------------------------------------

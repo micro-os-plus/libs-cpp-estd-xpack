@@ -108,7 +108,7 @@ namespace os
 
       os::estd::__throw_cmsis_error (static_cast<int> (res),
                                      "recursive_mutex try_lock failed");
-      //return false;
+      // return false;
     }
 
     void
@@ -123,9 +123,8 @@ namespace os
         }
     }
 
-  // ==========================================================================
-
-  } /* namespace estd */
-} /* namespace os */
+    // ==========================================================================
+  } // namespace estd
+} // namespace os
 
 // ----------------------------------------------------------------------------
