@@ -41,6 +41,16 @@ Pull Requests should be directed to this branch.
 When new releases are published, the `xpack-develop` branch is merged
 into `xpack`.
 
+## User info
+
+The new classes are defined in the `os::estd` namespace. Having them
+in a separate namespace allows to run tests on the synthetic POSIX platform.
+
+Since the libraries included in the current embedded toolchain do not
+include support for threads, it is possible to also define 
+the same functionality in the `std::` namespace, and reuse
+source code from POSIX desktops.
+
 ## License
 
 The original content is released under the
