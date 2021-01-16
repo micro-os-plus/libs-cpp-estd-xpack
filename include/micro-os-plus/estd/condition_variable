@@ -461,6 +461,6 @@ namespace std
 
 // ----------------------------------------------------------------------------
 
-#endif /* MICRO_OS_PLUS_ESTD_CONDITION_VARIABLE_ */
+#endif // MICRO_OS_PLUS_ESTD_CONDITION_VARIABLE_
 
 // ----------------------------------------------------------------------------
