@@ -11,33 +11,39 @@
 
 message(STATUS "Including micro-os-plus-libs-cpp-estd...")
 
+# -----------------------------------------------------------------------------
+
 function(target_sources_micro_os_plus_libs_cpp_estd target)
 
-  get_filename_component(PARENT_DIR ${CMAKE_CURRENT_FUNCTION_LIST_DIR} DIRECTORY)
+  get_filename_component(xpack_root_folder ${CMAKE_CURRENT_FUNCTION_LIST_DIR} DIRECTORY)
 
   target_sources(
     ${target}
 
     PRIVATE
-    ${PARENT_DIR}/src/chrono.cpp
-    ${PARENT_DIR}/src/condition-variable.cpp
-    ${PARENT_DIR}/src/memory-resource.cpp
-    ${PARENT_DIR}/src/mutex.cpp
-    ${PARENT_DIR}/src/new.cpp
-    ${PARENT_DIR}/src/thread.cpp
+      ${xpack_root_folder}/src/chrono.cpp
+      ${xpack_root_folder}/src/condition-variable.cpp
+      ${xpack_root_folder}/src/memory-resource.cpp
+      ${xpack_root_folder}/src/mutex.cpp
+      ${xpack_root_folder}/src/new.cpp
+      ${xpack_root_folder}/src/thread.cpp
   )
+
 endfunction()
+
+# -----------------------------------------------------------------------------
 
 function(target_include_directories_micro_os_plus_libs_cpp_estd target)
 
-  get_filename_component(PARENT_DIR ${CMAKE_CURRENT_FUNCTION_LIST_DIR} DIRECTORY)
+  get_filename_component(xpack_root_folder ${CMAKE_CURRENT_FUNCTION_LIST_DIR} DIRECTORY)
 
   target_include_directories(
     ${target}
 
     PUBLIC
-      ${PARENT_DIR}/include
+      ${xpack_root_folder}/include
   )
+
 endfunction()
 
 # -----------------------------------------------------------------------------
