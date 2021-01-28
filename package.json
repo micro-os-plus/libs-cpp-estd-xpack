@@ -8,14 +8,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/micro-os-plus/libs-cpp-estd-xpack.git"
+    "url": "git+https://github.com/micro-os-plus/libs-cpp-estd-xpack.git/"
   },
   "bugs": {
-    "url": "https://github.com/micro-os-plus/libs-cpp-estd-xpack/issues"
+    "url": "https://github.com/micro-os-plus/libs-cpp-estd-xpack/issues/"
   },
-  "homepage": "https://github.com/micro-os-plus/libs-cpp-estd-xpack",
+  "homepage": "https://github.com/micro-os-plus/libs-cpp-estd-xpack/",
   "keywords": [
-    "xpack"
+    "xpack",
+    "c++",
+    "micro-os-plus"
   ],
   "author": {
     "name": "Liviu Ionescu",
