@@ -39,16 +39,13 @@ if(NOT TARGET micro-os-plus-libs-cpp-estd-interface)
 
   # ---------------------------------------------------------------------------
 
+  file(GLOB_RECURSE source_files CONFIGURE_DEPENDS "${xpack_current_folder}/src/*.c*")
+
   target_sources(
     micro-os-plus-libs-cpp-estd-interface
 
     INTERFACE
-      ${xpack_current_folder}/src/chrono.cpp
-      ${xpack_current_folder}/src/condition-variable.cpp
-      ${xpack_current_folder}/src/memory-resource.cpp
-      ${xpack_current_folder}/src/mutex.cpp
-      ${xpack_current_folder}/src/new.cpp
-      ${xpack_current_folder}/src/thread.cpp
+      ${source_files}
   )
 
   target_include_directories(
