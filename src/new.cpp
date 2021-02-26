@@ -38,7 +38,7 @@
  * @brief Global synchronised new/delete definitions.
  */
 
-#include <micro-os-plus/rtos/os.h>
+#include <micro-os-plus/rtos.h>
 #include <micro-os-plus/estd/memory_resource>
 
 // ----------------------------------------------------------------------------

@@ -45,7 +45,7 @@
 #include <tuple>
 #include <cerrno>
 
-#include <micro-os-plus/rtos/os.h>
+#include <micro-os-plus/rtos.h>
 
 #include <micro-os-plus/estd/system_error>
 #include <micro-os-plus/estd/chrono>

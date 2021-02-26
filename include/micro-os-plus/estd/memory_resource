@@ -30,7 +30,7 @@
 
 // ----------------------------------------------------------------------------
 
-#include <micro-os-plus/rtos/os-memory.h>
+#include <micro-os-plus/rtos/memory.h>
 
 #include <cstddef>
 #include <cerrno>

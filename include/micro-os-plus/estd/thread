@@ -45,7 +45,7 @@
 #include <type_traits>
 #include <functional>
 
-#include <micro-os-plus/rtos/os.h>
+#include <micro-os-plus/rtos.h>
 
 #include <micro-os-plus/estd/chrono>
 
