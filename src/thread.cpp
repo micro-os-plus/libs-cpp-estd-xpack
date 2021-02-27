@@ -27,7 +27,7 @@
 
 #include <micro-os-plus/estd/thread>
 
-namespace os
+namespace micro_os_plus
 {
   namespace estd
   {
@@ -37,7 +37,7 @@ namespace os
 
     // ==========================================================================
   } // namespace estd
-} // namespace os
+} // namespace micro_os_plus
 
 #if defined(MICRO_OS_PLUS_HAS_STD_THREADS)
 

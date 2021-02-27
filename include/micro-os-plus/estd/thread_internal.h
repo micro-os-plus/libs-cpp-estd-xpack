@@ -49,7 +49,7 @@
 class thread
 {
 public:
-  using native_handle_type = os::rtos::thread*; // See 33.2.3
+  using native_handle_type = micro_os_plus::rtos::thread*; // See 33.2.3
 
   /**
    * @brief Thread unique id.
@@ -225,8 +225,8 @@ namespace this_thread
    * @details
    * extra Clock_T is an extension to the standard
    */
-  template <typename Clock_T = os::estd::chrono::systick_clock, typename Rep_T,
-            typename Period_T>
+  template <typename Clock_T = micro_os_plus::estd::chrono::systick_clock,
+            typename Rep_T, typename Period_T>
   constexpr void
   sleep_for (const std::chrono::duration<Rep_T, Period_T>& rel_time);
 
@@ -324,7 +324,7 @@ template <typename F_T>
 void
 thread::run_function_object (const void* func_obj)
 {
-  os::trace::printf ("%s()\n", __PRETTY_FUNCTION__);
+  micro_os_plus::trace::printf ("%s()\n", __PRETTY_FUNCTION__);
 
   using Function_object = F_T;
   const Function_object* f = static_cast<const Function_object*> (func_obj);
@@ -335,7 +335,7 @@ template <typename F_T>
 void
 thread::delete_function_object (const void* func_obj)
 {
-  os::trace::printf ("%s()\n", __PRETTY_FUNCTION__);
+  micro_os_plus::trace::printf ("%s()\n", __PRETTY_FUNCTION__);
 
   using Function_object = F_T;
   const Function_object* f = static_cast<const Function_object*> (func_obj);
@@ -351,10 +351,11 @@ thread::delete_function_object (const void* func_obj)
 template <typename Callable_T, typename... Args_T>
 thread::thread (Callable_T&& f, Args_T&&... args)
 {
-  // static_assert(std::is_same<Attr_T, os::rtos::thread::attr_t>::value,
-  // "first param must be thread_attr_t*");
+  // static_assert(std::is_same<Attr_T,
+  // micro_os_plus::rtos::thread::attr_t>::value, "first param must be
+  // thread_attr_t*");
 
-  os::trace::printf ("%s() @%p\n", __PRETTY_FUNCTION__, this);
+  micro_os_plus::trace::printf ("%s() @%p\n", __PRETTY_FUNCTION__, this);
 
   using Function_object = decltype (std::bind (
       std::forward<Callable_T> (f), std::forward<Args_T> (args)...));
@@ -368,10 +369,11 @@ thread::thread (Callable_T&& f, Args_T&&... args)
 
   // The function to start the thread is a custom proxy that
   // knows how to get the variadic arguments.
-  id_ = id{ new os::rtos::thread (
-      reinterpret_cast<os::rtos::thread::func_t> (
+  id_ = id{ new micro_os_plus::rtos::thread (
+      reinterpret_cast<micro_os_plus::rtos::thread::func_t> (
           &run_function_object<Function_object>),
-      reinterpret_cast<os::rtos::thread::func_args_t> (funct_obj)) };
+      reinterpret_cast<micro_os_plus::rtos::thread::func_args_t> (
+          funct_obj)) };
 
   // The deleter, to be used during destruction.
   function_object_deleter_ = reinterpret_cast<function_object_deleter_t> (
@@ -388,13 +390,13 @@ namespace this_thread
   inline __attribute__ ((always_inline)) void
   yield () noexcept
   {
-    os::rtos::this_thread::yield ();
+    micro_os_plus::rtos::this_thread::yield ();
   }
 
   inline thread::id
   get_id () noexcept
   {
-    return thread::id (&os::rtos::this_thread::thread ());
+    return thread::id (&micro_os_plus::rtos::this_thread::thread ());
   }
 
   // This implementation currently supports only short
@@ -417,7 +419,7 @@ namespace this_thread
         {
           // Round up to micros, in case of nanos.
           microseconds micros =
-          os::estd::chrono::ceil<microseconds> (rel_time);
+          micro_os_plus::estd::chrono::ceil<microseconds> (rel_time);
 
           // Round up to ticks.
 #if 0
@@ -425,16 +427,16 @@ namespace this_thread
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Waggregate-return"
 
-          os::rtos::thread::sleep (
-              (os::rtos::systicks_t) (os::estd::chrono::ceil<
+          micro_os_plus::rtos::thread::sleep (
+              (micro_os_plus::rtos::systicks_t) (micro_os_plus::estd::chrono::ceil<
                   systicks> (micros).count ()));
 #pragma GCC diagnostic pop
 
 #else
           // The code seems better with this variant, otherwise it
           // does not optimise constant calls.
-          os::rtos::Systick_clock::sleep_for (
-              os::rtos::Systick_clock::ticks_cast (
+          micro_os_plus::rtos::Systick_clock::sleep_for (
+              micro_os_plus::rtos::Systick_clock::ticks_cast (
                   micros.count ()));
 #endif
 
@@ -457,7 +459,8 @@ namespace this_thread
     if (rel_time > duration<Rep_T, Period_T>::zero ())
       {
         sleep_rep d = static_cast<sleep_rep> (
-            os::estd::chrono::ceil<typename clock::duration> (rel_time)
+            micro_os_plus::estd::chrono::ceil<typename clock::duration> (
+                rel_time)
                 .count ());
 
         clock::sleep_for (d);
@@ -488,10 +491,11 @@ namespace this_thread
 
   template <typename Duration_T>
   void
-  sleep_until (const std::chrono::time_point<os::estd::chrono::realtime_clock,
-                                             Duration_T>& abs_time)
+  sleep_until (
+      const std::chrono::time_point<
+          micro_os_plus::estd::chrono::realtime_clock, Duration_T>& abs_time)
   {
-    using clock = os::estd::chrono::realtime_clock;
+    using clock = micro_os_plus::estd::chrono::realtime_clock;
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Waggregate-return"
@@ -500,8 +504,8 @@ namespace this_thread
     while (now < abs_time)
       {
         typename clock::sleep_rep d
-            = (os::estd::chrono::ceil<typename clock::sleep_duration> (abs_time
-                                                                       - now))
+            = (micro_os_plus::estd::chrono::ceil<
+                   typename clock::sleep_duration> (abs_time - now))
                   .count ();
         clock::sleep_for (d);
         now = clock::now ();
@@ -512,10 +516,11 @@ namespace this_thread
 
   template <typename Duration_T>
   void
-  sleep_until (const std::chrono::time_point<os::estd::chrono::systick_clock,
-                                             Duration_T>& abs_time)
+  sleep_until (
+      const std::chrono::time_point<micro_os_plus::estd::chrono::systick_clock,
+                                    Duration_T>& abs_time)
   {
-    using clock = os::estd::chrono::systick_clock;
+    using clock = micro_os_plus::estd::chrono::systick_clock;
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Waggregate-return"
@@ -524,8 +529,8 @@ namespace this_thread
     while (now < abs_time)
       {
         typename clock::sleep_rep d
-            = (os::estd::chrono::ceil<typename clock::sleep_duration> (abs_time
-                                                                       - now))
+            = (micro_os_plus::estd::chrono::ceil<
+                   typename clock::sleep_duration> (abs_time - now))
                   .count ();
         clock::sleep_for (d);
         now = clock::now ();

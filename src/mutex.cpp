@@ -29,7 +29,11 @@
 
 // ----------------------------------------------------------------------------
 
-namespace os
+using namespace micro_os_plus;
+
+// ----------------------------------------------------------------------------
+
+namespace micro_os_plus
 {
   namespace estd
   {
@@ -38,21 +42,21 @@ namespace os
     void
     mutex::lock ()
     {
-      os::rtos::result_t res;
+      rtos::result_t res;
       res = nm_.lock ();
-      if (res != os::rtos::result::ok)
+      if (res != rtos::result::ok)
         {
-          os::estd::__throw_rtos_error (static_cast<int> (res),
-                                         "mutex lock failed");
+          estd::__throw_rtos_error (static_cast<int> (res),
+                                                   "mutex lock failed");
         }
     }
 
     bool
     mutex::try_lock ()
     {
-      os::rtos::result_t res;
+      rtos::result_t res;
       res = nm_.try_lock ();
-      if (res == os::rtos::result::ok)
+      if (res == rtos::result::ok)
         {
           return true;
         }
@@ -61,20 +65,20 @@ namespace os
           return false;
         }
 
-      os::estd::__throw_rtos_error (static_cast<int> (res),
-                                     "mutex try_lock failed");
+      estd::__throw_rtos_error (static_cast<int> (res),
+                                               "mutex try_lock failed");
       // return false;
     }
 
     void
     mutex::unlock ()
     {
-      os::rtos::result_t res;
+      rtos::result_t res;
       res = nm_.unlock ();
-      if (res != os::rtos::result::ok)
+      if (res != rtos::result::ok)
         {
-          os::estd::__throw_rtos_error (static_cast<int> (res),
-                                         "mutex unlock failed");
+          estd::__throw_rtos_error (static_cast<int> (res),
+                                                   "mutex unlock failed");
         }
     }
 
@@ -83,21 +87,21 @@ namespace os
     void
     recursive_mutex::lock ()
     {
-      os::rtos::result_t res;
+      rtos::result_t res;
       res = nm_.lock ();
-      if (res != os::rtos::result::ok)
+      if (res != rtos::result::ok)
         {
-          os::estd::__throw_rtos_error (static_cast<int> (res),
-                                         "recursive_mutex lock failed");
+          estd::__throw_rtos_error (
+              static_cast<int> (res), "recursive_mutex lock failed");
         }
     }
 
     bool
     recursive_mutex::try_lock () noexcept
     {
-      os::rtos::result_t res;
+      rtos::result_t res;
       res = nm_.try_lock ();
-      if (res == os::rtos::result::ok)
+      if (res == rtos::result::ok)
         {
           return true;
         }
@@ -106,25 +110,25 @@ namespace os
           return false;
         }
 
-      os::estd::__throw_rtos_error (static_cast<int> (res),
-                                     "recursive_mutex try_lock failed");
+      estd::__throw_rtos_error (
+          static_cast<int> (res), "recursive_mutex try_lock failed");
       // return false;
     }
 
     void
     recursive_mutex::unlock ()
     {
-      os::rtos::result_t res;
+      rtos::result_t res;
       res = nm_.unlock ();
-      if (res != os::rtos::result::ok)
+      if (res != rtos::result::ok)
         {
-          os::estd::__throw_rtos_error (static_cast<int> (res),
-                                         "recursive_mutex unlock failed");
+          estd::__throw_rtos_error (
+              static_cast<int> (res), "recursive_mutex unlock failed");
         }
     }
 
     // ==========================================================================
   } // namespace estd
-} // namespace os
+} // namespace micro_os_plus
 
 // ----------------------------------------------------------------------------

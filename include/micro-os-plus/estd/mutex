@@ -52,7 +52,7 @@
 
 // ----------------------------------------------------------------------------
 
-namespace os
+namespace micro_os_plus
 {
   namespace estd
   {
@@ -67,7 +67,7 @@ namespace os
     class mutex
     {
     private:
-      using native_type = os::rtos::mutex;
+      using native_type = micro_os_plus::rtos::mutex;
 
     public:
       using native_handle_type = native_type*;
@@ -103,7 +103,7 @@ namespace os
     class recursive_mutex
     {
     private:
-      using native_type = os::rtos::mutex;
+      using native_type = micro_os_plus::rtos::mutex;
 
     public:
       using native_handle_type = native_type*;
@@ -202,7 +202,7 @@ namespace os
     // ========================================================================
 
     inline recursive_mutex::recursive_mutex ()
-        : nm_{ os::rtos::mutex::initializer_recursive }
+        : nm_{ micro_os_plus::rtos::mutex::initializer_recursive }
     {
       ;
     }
@@ -224,17 +224,18 @@ namespace os
         const std::chrono::duration<Rep_T, Period_T>& rel_time)
     {
       using namespace std::chrono;
-      os::rtos::clock::duration_t ticks = 0;
+      micro_os_plus::rtos::clock::duration_t ticks = 0;
       if (rel_time > duration<Rep_T, Period_T>::zero ())
         {
-          ticks = static_cast<os::rtos::clock::duration_t> (
-              os::estd::chrono::ceil<os::estd::chrono::systicks> (rel_time)
+          ticks = static_cast<micro_os_plus::rtos::clock::duration_t> (
+              micro_os_plus::estd::chrono::ceil<
+                  micro_os_plus::estd::chrono::systicks> (rel_time)
                   .count ());
         }
 
-      os::rtos::result_t res;
+      micro_os_plus::rtos::result_t res;
       res = nm_.timed_lock (ticks);
-      if (res == os::rtos::result::ok)
+      if (res == micro_os_plus::rtos::result::ok)
         {
           return true;
         }
@@ -243,8 +244,8 @@ namespace os
           return false;
         }
 
-      os::estd::__throw_system_error (static_cast<int> (res),
-                                      "timed_mutex try_lock failed");
+      micro_os_plus::estd::__throw_system_error (
+          static_cast<int> (res), "timed_mutex try_lock failed");
       return false;
     }
 
@@ -278,17 +279,18 @@ namespace os
         const std::chrono::duration<Rep_T, Period_T>& rel_time)
     {
       using namespace std::chrono;
-      os::rtos::clock::duration_t ticks = 0;
+      micro_os_plus::rtos::clock::duration_t ticks = 0;
       if (rel_time > duration<Rep_T, Period_T>::zero ())
         {
-          ticks = static_cast<os::rtos::clock::duration_t> (
-              os::estd::chrono::ceil<os::estd::chrono::systicks> (rel_time)
+          ticks = static_cast<micro_os_plus::rtos::clock::duration_t> (
+              micro_os_plus::estd::chrono::ceil<
+                  micro_os_plus::estd::chrono::systicks> (rel_time)
                   .count ());
         }
 
-      os::rtos::result_t res;
+      micro_os_plus::rtos::result_t res;
       res = nm_.timed_lock (ticks);
-      if (res == os::rtos::result::ok)
+      if (res == micro_os_plus::rtos::result::ok)
         {
           return true;
         }
@@ -297,8 +299,8 @@ namespace os
           return false;
         }
 
-      os::estd::__throw_system_error (static_cast<int> (res),
-                                      "timed_mutex try_lock failed");
+      micro_os_plus::estd::__throw_system_error (
+          static_cast<int> (res), "timed_mutex try_lock failed");
       return false;
     }
 
@@ -324,7 +326,7 @@ namespace os
 
     // ==========================================================================
   } // namespace estd
-} // namespace os
+} // namespace micro_os_plus
 
 #if defined(MICRO_OS_PLUS_HAS_STD_THREADS)
 
@@ -337,10 +339,10 @@ namespace std
 
   // Redefine the objects in the std:: namespace.
 
-  using mutex = os::estd::mutex;
-  using recursive_mutex = os::estd::recursive_mutex;
-  using timed_mutex = os::estd::timed_mutex;
-  using recursive_timed_mutex = os::estd::recursive_timed_mutex;
+  using mutex = micro_os_plus::estd::mutex;
+  using recursive_mutex = micro_os_plus::estd::recursive_mutex;
+  using timed_mutex = micro_os_plus::estd::timed_mutex;
+  using recursive_timed_mutex = micro_os_plus::estd::recursive_timed_mutex;
 
   /**
    * @}

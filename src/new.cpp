@@ -43,7 +43,7 @@
 
 // ----------------------------------------------------------------------------
 
-using namespace os;
+using namespace micro_os_plus;
 
 // ----------------------------------------------------------------------------
 
@@ -303,9 +303,10 @@ operator new[] (std::size_t bytes, const std::nothrow_t& nothrow
  * to render the value of ptr invalid.
  *
  * ptr shall be a null pointer or its value shall be a value returned by
- * an earlier call to the (possibly replaced) operator new(os::std::size_t)
- * or operator new(os::std::size_t,const std::nothrow_t&) which has not
- * been invalidated by an intervening call to operator delete(void*).
+ * an earlier call to the (possibly replaced) operator
+ * new(std::size_t) or operator
+ * new(std::size_t,const std::nothrow_t&) which has not been
+ * invalidated by an intervening call to operator delete(void*).
  *
  * If ptr is null, does nothing. Otherwise, reclaims the storage
  * allocated by the earlier call to operator new.

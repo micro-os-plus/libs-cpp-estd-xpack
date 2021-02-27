@@ -49,7 +49,7 @@
 
 // ----------------------------------------------------------------------------
 
-namespace os
+namespace micro_os_plus
 {
   namespace estd
   {
@@ -86,7 +86,7 @@ namespace os
     class condition_variable
     {
     private:
-      using native_type = os::rtos::condition_variable;
+      using native_type = micro_os_plus::rtos::condition_variable;
 
     public:
       using native_handle_type = native_type*;
@@ -141,7 +141,7 @@ namespace os
 
     protected:
       native_type ncv_;
-      using Native_clock = os::estd::chrono::systick_clock;
+      using Native_clock = micro_os_plus::estd::chrono::systick_clock;
     };
 
     void
@@ -202,7 +202,7 @@ namespace os
       condition_variable cv_;
       std::shared_ptr<mutex> mx_;
 
-      using Native_clock = os::estd::chrono::systick_clock;
+      using Native_clock = micro_os_plus::estd::chrono::systick_clock;
     };
 
     /**
@@ -292,9 +292,10 @@ namespace os
 
       Native_clock::time_point start_tp = Native_clock::now ();
 
-      os::rtos::clock::duration_t ticks
-          = os::estd::chrono::ceil<std::chrono::duration<
-              os::rtos::clock::duration_t, typename Native_clock::period>> (
+      micro_os_plus::rtos::clock::duration_t ticks
+          = micro_os_plus::estd::chrono::ceil<
+                std::chrono::duration<micro_os_plus::rtos::clock::duration_t,
+                                      typename Native_clock::period>> (
                 rel_time)
                 .count ();
 
@@ -434,7 +435,7 @@ namespace os
 
     // ------------------------------------------------------------------------
   } // namespace estd
-} // namespace os
+} // namespace micro_os_plus
 
 #if defined(MICRO_OS_PLUS_HAS_STD_THREADS)
 
@@ -447,10 +448,10 @@ namespace std
 
   // Redefine the objects in the std:: namespace.
 
-  using cv_status = os::estd::cv_status;
+  using cv_status = micro_os_plus::estd::cv_status;
 
-  using condition_variable = os::estd::condition_variable;
-  using condition_variable_any = os::estd::condition_variable_any;
+  using condition_variable = micro_os_plus::estd::condition_variable;
+  using condition_variable_any = micro_os_plus::estd::condition_variable_any;
 
   /**
    * @}

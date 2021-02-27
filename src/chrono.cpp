@@ -30,7 +30,7 @@
 
 // ----------------------------------------------------------------------------
 
-namespace os
+namespace micro_os_plus
 {
   namespace estd
   {
@@ -38,7 +38,7 @@ namespace os
     {
       // ----------------------------------------------------------------------
 
-      using namespace os;
+      using namespace micro_os_plus;
 
       // Number of seconds from epoch (1 January 1970 00:00:00 UTC)
       // when the system was started.
@@ -121,6 +121,6 @@ namespace os
       // ----------------------------------------------------------------------
     } // namespace chrono
   } // namespace estd
-} // namespace os
+} // namespace micro_os_plus
 
 // ----------------------------------------------------------------------------

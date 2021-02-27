@@ -29,7 +29,11 @@
 
 // ----------------------------------------------------------------------------
 
-namespace os
+using namespace micro_os_plus;
+
+// ----------------------------------------------------------------------------
+
+namespace micro_os_plus
 {
   namespace estd
   {
@@ -38,11 +42,11 @@ namespace os
     void
     condition_variable::notify_one () noexcept
     {
-      os::rtos::result_t res;
+      rtos::result_t res;
       res = ncv_.signal ();
-      if (res != os::rtos::result::ok)
+      if (res != rtos::result::ok)
         {
-          os::estd::__throw_rtos_error (
+          estd::__throw_rtos_error (
               static_cast<int> (res),
               "condition_variable::notify_one() failed");
         }
@@ -51,11 +55,11 @@ namespace os
     void
     condition_variable::notify_all () noexcept
     {
-      os::rtos::result_t res;
+      rtos::result_t res;
       res = ncv_.broadcast ();
-      if (res != os::rtos::result::ok)
+      if (res != rtos::result::ok)
         {
-          os::estd::__throw_rtos_error (
+          estd::__throw_rtos_error (
               static_cast<int> (res),
               "condition_variable::notify_all() failed");
         }
@@ -66,14 +70,15 @@ namespace os
     {
       if (!lk.owns_lock ())
         {
-          os::estd::__throw_system_error (
+          estd::__throw_system_error (
               EPERM, "condition_variable::wait: mutex not locked");
         }
-      os::rtos::result_t res = ncv_.wait ((*(lk.mutex ()->native_handle ())));
-      if (res != os::rtos::result::ok)
+      rtos::result_t res
+          = ncv_.wait ((*(lk.mutex ()->native_handle ())));
+      if (res != rtos::result::ok)
         {
-          os::estd::__throw_rtos_error (static_cast<int> (res),
-                                         "condition_variable wait failed");
+          estd::__throw_rtos_error (
+              static_cast<int> (res), "condition_variable wait failed");
         }
     }
 
@@ -93,6 +98,6 @@ namespace os
 
     // ==========================================================================
   } // namespace estd
-} // namespace os
+} // namespace micro_os_plus
 
 // ----------------------------------------------------------------------------

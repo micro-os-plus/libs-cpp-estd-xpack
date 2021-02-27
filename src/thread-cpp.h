@@ -46,8 +46,8 @@ thread::operator= (thread&& t) noexcept
 {
   if (joinable ())
     {
-      os::trace::printf ("%s() @%p attempt to assign a running thread\n",
-                         __func__, this);
+      micro_os_plus::trace::printf (
+          "%s() @%p attempt to assign a running thread\n", __func__, this);
       std::abort (); // in ISO it is std::terminate()
     }
   swap (t);
@@ -73,11 +73,11 @@ thread::delete_system_thread (void)
 
 thread::~thread ()
 {
-  os::trace::printf ("%s() @%p\n", __func__, this);
+  micro_os_plus::trace::printf ("%s() @%p\n", __func__, this);
   if (joinable ())
     {
-      os::trace::printf ("%s() @%p attempt to destruct a running thread\n",
-                         __func__, this);
+      micro_os_plus::trace::printf (
+          "%s() @%p attempt to destruct a running thread\n", __func__, this);
       std::abort (); // in ISO it is std::terminate()
     }
 
@@ -102,18 +102,18 @@ thread::joinable () const noexcept
 void
 thread::join ()
 {
-  os::trace::printf ("%s() @%p\n", __func__, this);
+  micro_os_plus::trace::printf ("%s() @%p\n", __func__, this);
 
   delete_system_thread ();
 
   id_ = id ();
-  os::trace::printf ("%s() @%p joined\n", __func__, this);
+  micro_os_plus::trace::printf ("%s() @%p joined\n", __func__, this);
 }
 
 void
 thread::detach ()
 {
-  os::trace::printf ("%s() @%p\n", __func__, this);
+  micro_os_plus::trace::printf ("%s() @%p\n", __func__, this);
   if (id_ != id ())
     {
       id_.native_thread_->detach ();
@@ -124,7 +124,7 @@ thread::detach ()
   // TODO: arrange to delete it at exit()?
 
   id_ = id ();
-  os::trace::printf ("%s() @%p detached\n", __func__, this);
+  micro_os_plus::trace::printf ("%s() @%p detached\n", __func__, this);
 }
 
 // ----------------------------------------------------------------------------

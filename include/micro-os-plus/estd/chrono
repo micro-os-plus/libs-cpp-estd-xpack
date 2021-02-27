@@ -36,7 +36,7 @@
 
 // ----------------------------------------------------------------------------
 
-namespace os
+namespace micro_os_plus
 {
   namespace estd
   {
@@ -79,7 +79,8 @@ namespace os
         using sleep_rep = rtos::clock_systick::duration_t;
         /// std::ratio type representing the tick period of the clock, in
         /// seconds
-        using period = std::ratio<1, os::rtos::clock_systick::frequency_hz>;
+        using period
+            = std::ratio<1, micro_os_plus::rtos::clock_systick::frequency_hz>;
         /// basic duration type of clock
         using duration = std::chrono::duration<rep, period>;
         using sleep_duration = std::chrono::duration<sleep_rep, period>;
@@ -213,12 +214,12 @@ namespace os
 
     } // namespace chrono
   } // namespace estd
-} // namespace os
+} // namespace micro_os_plus
 
 // ----------------------------------------------------------------------------
 // Inline & template implementations.
 
-namespace os
+namespace micro_os_plus
 {
   namespace estd
   {
@@ -267,7 +268,7 @@ namespace os
       // Avoid formatter bug
     } // namespace chrono
   } // namespace estd
-} // namespace os
+} // namespace micro_os_plus
 
 // ----------------------------------------------------------------------------
 

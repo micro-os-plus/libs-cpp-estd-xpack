@@ -82,7 +82,7 @@ into `xpack`.
 
 ## User info
 
-The new classes are defined in the `os::estd` namespace. Having them
+The new classes are defined in the `micro_os_plus::estd` namespace. Having them
 in a separate namespace allows to run tests on the synthetic POSIX platform.
 
 Since the libraries included in the current embedded toolchain do not

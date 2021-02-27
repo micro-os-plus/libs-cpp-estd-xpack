@@ -51,7 +51,7 @@
 
 // ----------------------------------------------------------------------------
 
-namespace os
+namespace micro_os_plus
 {
   namespace estd
   {
@@ -70,19 +70,19 @@ namespace os
 
     // ==========================================================================
   } // namespace estd
-} // namespace os
+} // namespace micro_os_plus
 
 namespace std
 {
   // Define a std::hash specialisation.
   template <>
-  struct hash<os::estd::thread::id>
-      : public std::unary_function<os::estd::thread::id, size_t>
+  struct hash<micro_os_plus::estd::thread::id>
+      : public std::unary_function<micro_os_plus::estd::thread::id, size_t>
   {
     inline size_t
-    operator() (os::estd::thread::id v) const
+    operator() (micro_os_plus::estd::thread::id v) const
     {
-      return std::hash<os::estd::thread::native_handle_type> () (
+      return std::hash<micro_os_plus::estd::thread::native_handle_type> () (
           v.native_thread_);
     }
   };
