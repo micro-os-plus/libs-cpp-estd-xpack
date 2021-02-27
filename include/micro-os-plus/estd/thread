@@ -88,7 +88,7 @@ namespace std
   };
 } // namespace std
 
-#if defined(OS_HAS_STD_THREADS)
+#if defined(MICRO_OS_PLUS_HAS_STD_THREADS)
 
 namespace std
 {

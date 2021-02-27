@@ -160,7 +160,7 @@ operator new (std::size_t bytes)
 
       if (mem != nullptr)
         {
-#if defined(OS_TRACE_LIBCPP_OPERATOR_NEW)
+#if defined(MICRO_OS_PLUS_TRACE_LIBCPP_OPERATOR_NEW)
           trace::printf ("::%s(%d)=%p\n", __func__, bytes, mem);
 #endif
           return mem;
@@ -223,7 +223,7 @@ operator new (std::size_t bytes,
 
       if (mem != nullptr)
         {
-#if defined(OS_TRACE_LIBCPP_OPERATOR_NEW)
+#if defined(MICRO_OS_PLUS_TRACE_LIBCPP_OPERATOR_NEW)
           trace::printf ("::%s(%d)=%p\n", __func__, bytes, mem);
 #endif
           return mem;
@@ -318,7 +318,7 @@ operator new[] (std::size_t bytes, const std::nothrow_t& nothrow
 void __attribute__ ((weak))
 operator delete (void* ptr) noexcept
 {
-#if defined(OS_TRACE_LIBCPP_OPERATOR_NEW)
+#if defined(MICRO_OS_PLUS_TRACE_LIBCPP_OPERATOR_NEW)
   trace::printf ("::%s(%p)\n", __func__, ptr);
 #endif
 
@@ -368,7 +368,7 @@ operator delete (void* ptr, std::size_t bytes) noexcept;
 void __attribute__ ((weak))
 operator delete (void* ptr, std::size_t bytes) noexcept
 {
-#if defined(OS_TRACE_LIBCPP_OPERATOR_NEW)
+#if defined(MICRO_OS_PLUS_TRACE_LIBCPP_OPERATOR_NEW)
   trace::printf ("::%s(%p,%u)\n", __func__, ptr, bytes);
 #endif
 
@@ -408,7 +408,7 @@ void __attribute__ ((weak))
 operator delete (void* ptr, const std::nothrow_t& nothrow
                  __attribute__ ((unused))) noexcept
 {
-#if defined(OS_TRACE_LIBCPP_OPERATOR_NEW)
+#if defined(MICRO_OS_PLUS_TRACE_LIBCPP_OPERATOR_NEW)
   trace::printf ("::%s(%p)\n", __func__, ptr);
 #endif
 
