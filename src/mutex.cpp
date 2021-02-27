@@ -42,7 +42,7 @@ namespace os
       res = nm_.lock ();
       if (res != os::rtos::result::ok)
         {
-          os::estd::__throw_cmsis_error (static_cast<int> (res),
+          os::estd::__throw_rtos_error (static_cast<int> (res),
                                          "mutex lock failed");
         }
     }
@@ -61,7 +61,7 @@ namespace os
           return false;
         }
 
-      os::estd::__throw_cmsis_error (static_cast<int> (res),
+      os::estd::__throw_rtos_error (static_cast<int> (res),
                                      "mutex try_lock failed");
       // return false;
     }
@@ -73,7 +73,7 @@ namespace os
       res = nm_.unlock ();
       if (res != os::rtos::result::ok)
         {
-          os::estd::__throw_cmsis_error (static_cast<int> (res),
+          os::estd::__throw_rtos_error (static_cast<int> (res),
                                          "mutex unlock failed");
         }
     }
@@ -87,7 +87,7 @@ namespace os
       res = nm_.lock ();
       if (res != os::rtos::result::ok)
         {
-          os::estd::__throw_cmsis_error (static_cast<int> (res),
+          os::estd::__throw_rtos_error (static_cast<int> (res),
                                          "recursive_mutex lock failed");
         }
     }
@@ -106,7 +106,7 @@ namespace os
           return false;
         }
 
-      os::estd::__throw_cmsis_error (static_cast<int> (res),
+      os::estd::__throw_rtos_error (static_cast<int> (res),
                                      "recursive_mutex try_lock failed");
       // return false;
     }
@@ -118,7 +118,7 @@ namespace os
       res = nm_.unlock ();
       if (res != os::rtos::result::ok)
         {
-          os::estd::__throw_cmsis_error (static_cast<int> (res),
+          os::estd::__throw_rtos_error (static_cast<int> (res),
                                          "recursive_mutex unlock failed");
         }
     }

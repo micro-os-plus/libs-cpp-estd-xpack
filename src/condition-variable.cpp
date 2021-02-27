@@ -42,7 +42,7 @@ namespace os
       res = ncv_.signal ();
       if (res != os::rtos::result::ok)
         {
-          os::estd::__throw_cmsis_error (
+          os::estd::__throw_rtos_error (
               static_cast<int> (res),
               "condition_variable::notify_one() failed");
         }
@@ -55,7 +55,7 @@ namespace os
       res = ncv_.broadcast ();
       if (res != os::rtos::result::ok)
         {
-          os::estd::__throw_cmsis_error (
+          os::estd::__throw_rtos_error (
               static_cast<int> (res),
               "condition_variable::notify_all() failed");
         }
@@ -72,7 +72,7 @@ namespace os
       os::rtos::result_t res = ncv_.wait ((*(lk.mutex ()->native_handle ())));
       if (res != os::rtos::result::ok)
         {
-          os::estd::__throw_cmsis_error (static_cast<int> (res),
+          os::estd::__throw_rtos_error (static_cast<int> (res),
                                          "condition_variable wait failed");
         }
     }
