@@ -58,7 +58,7 @@ namespace os
     // ------------------------------------------------------------------------
 
     /**
-     * @ingroup cmsis-plus-iso
+     * @ingroup micro-os-plus-iso
      * @{
      */
 
@@ -93,7 +93,7 @@ namespace std
 namespace std
 {
   /**
-   * @ingroup cmsis-plus-iso
+   * @ingroup micro-os-plus-iso
    * @{
    */
 

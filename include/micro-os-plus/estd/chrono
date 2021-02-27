@@ -65,7 +65,7 @@ namespace os
        */
 
       /**
-       * @ingroup cmsis-plus-iso
+       * @ingroup micro-os-plus-iso
        * @{
        */
 

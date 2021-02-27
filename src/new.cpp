@@ -60,7 +60,7 @@ namespace
 } // namespace
 
 /**
- * @addtogroup cmsis-plus-rtos-memres
+ * @addtogroup micro-os-plus-rtos-memres
  * @{
  */
 

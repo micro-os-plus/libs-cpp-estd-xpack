@@ -202,7 +202,7 @@ struct hash<thread::id>;
 /**
  * @brief A namespace for functions applying to the current thread.
  *
- * @ingroup cmsis-plus-iso
+ * @ingroup micro-os-plus-iso
  */
 namespace this_thread
 {
