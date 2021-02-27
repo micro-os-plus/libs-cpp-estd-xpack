@@ -46,9 +46,8 @@ namespace micro_os_plus
       res = ncv_.signal ();
       if (res != rtos::result::ok)
         {
-          estd::__throw_rtos_error (
-              static_cast<int> (res),
-              "condition_variable::notify_one() failed");
+          estd::__throw_rtos_error (static_cast<int> (res),
+                                    "condition_variable::notify_one() failed");
         }
     }
 
@@ -59,9 +58,8 @@ namespace micro_os_plus
       res = ncv_.broadcast ();
       if (res != rtos::result::ok)
         {
-          estd::__throw_rtos_error (
-              static_cast<int> (res),
-              "condition_variable::notify_all() failed");
+          estd::__throw_rtos_error (static_cast<int> (res),
+                                    "condition_variable::notify_all() failed");
         }
     }
 
@@ -73,12 +71,11 @@ namespace micro_os_plus
           estd::__throw_system_error (
               EPERM, "condition_variable::wait: mutex not locked");
         }
-      rtos::result_t res
-          = ncv_.wait ((*(lk.mutex ()->native_handle ())));
+      rtos::result_t res = ncv_.wait ((*(lk.mutex ()->native_handle ())));
       if (res != rtos::result::ok)
         {
-          estd::__throw_rtos_error (
-              static_cast<int> (res), "condition_variable wait failed");
+          estd::__throw_rtos_error (static_cast<int> (res),
+                                    "condition_variable wait failed");
         }
     }
 
