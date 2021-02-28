@@ -459,12 +459,12 @@ namespace micro_os_plus
     template <class F, class... Args>
     future<typename result_of<
         typename decay<F>::type (typename decay<Args>::type...)>::type>
-    async (F&& f, Args&&... args);
+    async (F&& f, Args&&... arguments);
 
     template <class F, class... Args>
     future<typename result_of<
         typename decay<F>::type (typename decay<Args>::type...)>::type>
-    async (launch policy, F&& f, Args&&... args);
+    async (launch policy, F&& f, Args&&... arguments);
 
     template <class>
     class packaged_task;

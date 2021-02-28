@@ -59,11 +59,11 @@ thread::delete_system_thread (void)
 {
   if (id_ != id ())
     {
-      void* args = id_.native_thread_->function_args ();
-      if (args != nullptr && function_object_deleter_ != nullptr)
+      void* arguments = id_.native_thread_->function_args ();
+      if (arguments != nullptr && function_object_deleter_ != nullptr)
         {
           // Manually delete the function object used to store arguments.
-          function_object_deleter_ (args);
+          function_object_deleter_ (arguments);
         }
 
       // Manually delete the system thread.

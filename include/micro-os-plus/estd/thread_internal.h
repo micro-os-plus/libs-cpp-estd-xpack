@@ -100,7 +100,7 @@ public:
 
   template <typename F, //
             typename... Args>
-  explicit thread (F&& f, Args&&... args);
+  explicit thread (F&& f, Args&&... arguments);
 
   ~thread ();
 
@@ -349,7 +349,7 @@ thread::delete_function_object (const void* func_obj)
 #pragma GCC diagnostic ignored "-Waggregate-return"
 
 template <typename Callable_T, typename... Args_T>
-thread::thread (Callable_T&& f, Args_T&&... args)
+thread::thread (Callable_T&& f, Args_T&&... arguments)
 {
   // static_assert(std::is_same<Attr_T,
   // micro_os_plus::rtos::thread::attr_t>::value, "first param must be
@@ -358,14 +358,14 @@ thread::thread (Callable_T&& f, Args_T&&... args)
   micro_os_plus::trace::printf ("%s() @%p\n", __PRETTY_FUNCTION__, this);
 
   using Function_object = decltype (std::bind (
-      std::forward<Callable_T> (f), std::forward<Args_T> (args)...));
+      std::forward<Callable_T> (f), std::forward<Args_T> (arguments)...));
 
   // Dynamic allocation! The size depends on the number of arguments.
   // This creates a small problem, since both running the function
   // and deleting the object requires the type. It is passes as
   // template functions.
   Function_object* funct_obj = new Function_object (std::bind (
-      std::forward<Callable_T> (f), std::forward<Args_T> (args)...));
+      std::forward<Callable_T> (f), std::forward<Args_T> (arguments)...));
 
   // The function to start the thread is a custom proxy that
   // knows how to get the variadic arguments.
