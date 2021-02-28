@@ -370,7 +370,7 @@ thread::thread (Callable_T&& f, Args_T&&... arguments)
   // The function to start the thread is a custom proxy that
   // knows how to get the variadic arguments.
   id_ = id{ new micro_os_plus::rtos::thread (
-      reinterpret_cast<micro_os_plus::rtos::thread::func_t> (
+      reinterpret_cast<micro_os_plus::rtos::thread::function_t> (
           &run_function_object<Function_object>),
       reinterpret_cast<micro_os_plus::rtos::thread::func_args_t> (
           funct_obj)) };
