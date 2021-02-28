@@ -353,7 +353,7 @@ thread::thread (Callable_T&& f, Args_T&&... args)
 {
   // static_assert(std::is_same<Attr_T,
   // micro_os_plus::rtos::thread::attr_t>::value, "first param must be
-  // thread_attr_t*");
+  // thread_attributes_t*");
 
   micro_os_plus::trace::printf ("%s() @%p\n", __PRETTY_FUNCTION__, this);
 
