@@ -372,7 +372,7 @@ thread::thread (Callable_T&& f, Args_T&&... arguments)
   id_ = id{ new micro_os_plus::rtos::thread (
       reinterpret_cast<micro_os_plus::rtos::thread::function_t> (
           &run_function_object<Function_object>),
-      reinterpret_cast<micro_os_plus::rtos::thread::func_args_t> (
+      reinterpret_cast<micro_os_plus::rtos::thread::function_arguments_t> (
           funct_obj)) };
 
   // The deleter, to be used during destruction.
