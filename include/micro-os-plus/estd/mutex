@@ -25,21 +25,25 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-/*
- * The code is inspired by LLVM libcxx and GNU libstdc++-v3.
- */
-
 #ifndef MICRO_OS_PLUS_ESTD_MUTEX_
 #define MICRO_OS_PLUS_ESTD_MUTEX_
 
 // ----------------------------------------------------------------------------
 
-// Include the next <mutex> file found in the search path.
+/*
+ * The code is inspired by LLVM libcxx and GNU libstdc++-v3.
+ */
+
 #pragma GCC diagnostic push
+
 #if defined(__clang__)
 #pragma clang diagnostic ignored "-Wgnu-include-next"
 #endif
-#include_next <mutex>
+
+// Include the next <mutex> file found in the search path.
+// GCC extension, avoided.
+// #include_next <mutex>
+
 #pragma GCC diagnostic pop
 
 #include <tuple>
@@ -51,6 +55,12 @@
 #include <micro-os-plus/estd/chrono>
 
 // ----------------------------------------------------------------------------
+
+#pragma GCC diagnostic push
+
+#if defined(__clang__)
+#pragma clang diagnostic ignored "-Wc++98-compat"
+#endif
 
 namespace micro_os_plus
 {
@@ -350,6 +360,8 @@ namespace std
 } // namespace std
 
 #endif
+
+#pragma GCC diagnostic pop
 
 // ----------------------------------------------------------------------------
 

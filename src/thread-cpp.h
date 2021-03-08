@@ -28,13 +28,12 @@
 // ----------------------------------------------------------------------------
 // This file is for internal use in µOS++ and should not be included
 // in applications.
-/**
- * @class thread
- *
- *
- * @details
- *
- */
+
+#pragma GCC diagnostic push
+
+#if defined(__clang__)
+#pragma clang diagnostic ignored "-Wc++98-compat"
+#endif
 
 thread::thread (thread&& t) noexcept
 {
@@ -126,5 +125,7 @@ thread::detach ()
   id_ = id ();
   micro_os_plus::trace::printf ("%s() @%p detached\n", __func__, this);
 }
+
+#pragma GCC diagnostic pop
 
 // ----------------------------------------------------------------------------

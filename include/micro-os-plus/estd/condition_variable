@@ -25,21 +25,22 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-/*
- * The code is inspired by LLVM libcxx and GNU libstdc++-v3.
- */
-
 #ifndef MICRO_OS_PLUS_ESTD_CONDITION_VARIABLE_
 #define MICRO_OS_PLUS_ESTD_CONDITION_VARIABLE_
 
 // ----------------------------------------------------------------------------
+
+/*
+ * The code is inspired by LLVM libcxx and GNU libstdc++-v3.
+ */
 
 // Include the next <condition_variable> file found in the search path.
 #pragma GCC diagnostic push
 #if defined(__clang__)
 #pragma clang diagnostic ignored "-Wgnu-include-next"
 #endif
-#include_next <condition_variable>
+// #include_next is a GCC extension
+// #include_next <condition_variable>
 #pragma GCC diagnostic pop
 
 #include <memory>
@@ -48,6 +49,12 @@
 #include <micro-os-plus/estd/mutex>
 
 // ----------------------------------------------------------------------------
+
+#pragma GCC diagnostic push
+
+#if defined(__clang__)
+#pragma clang diagnostic ignored "-Wc++98-compat"
+#endif
 
 namespace micro_os_plus
 {
@@ -459,6 +466,8 @@ namespace std
 } // namespace std
 
 #endif
+
+#pragma GCC diagnostic pop
 
 // ----------------------------------------------------------------------------
 

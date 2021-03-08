@@ -40,6 +40,12 @@
 
 // ----------------------------------------------------------------------------
 
+#pragma GCC diagnostic push
+
+#if defined(__clang__)
+#pragma clang diagnostic ignored "-Wc++98-compat"
+#endif
+
 namespace micro_os_plus
 {
   namespace estd
@@ -290,5 +296,7 @@ namespace micro_os_plus
 // ----------------------------------------------------------------------------
 
 #endif // MICRO_OS_PLUS_ESTD_ISO_MEMORY_
+
+#pragma GCC diagnostic pop
 
 // ----------------------------------------------------------------------------

@@ -25,14 +25,14 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-/*
- * The code is inspired by LLVM libcxx and GNU libstdc++-v3.
- */
-
 #ifndef MICRO_OS_PLUS_ESTD_FUTURE_
 #define MICRO_OS_PLUS_ESTD_FUTURE_
 
 // ----------------------------------------------------------------------------
+
+/*
+ * The code is inspired by LLVM libcxx and GNU libstdc++-v3.
+ */
 
 // NOTICE: Not yet implemented!
 

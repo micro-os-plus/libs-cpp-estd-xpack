@@ -30,6 +30,12 @@
 
 // ----------------------------------------------------------------------------
 
+#pragma GCC diagnostic push
+
+#if defined(__clang__)
+#pragma clang diagnostic ignored "-Wc++98-compat"
+#endif
+
 namespace micro_os_plus
 {
   namespace estd
@@ -82,13 +88,22 @@ namespace micro_os_plus
         };
       }
 
+#pragma GCC diagnostic push
+
+#if defined(__GNUC__) && !defined(__clang__)
+#pragma GCC diagnostic ignored "-Wuseless-cast"
+#endif
+
       time_t
       system_clock::to_time_t (const time_point& t) noexcept
       {
-        return time_t (std::chrono::duration_cast<std::chrono::seconds> (
-                           t.time_since_epoch ())
-                           .count ());
+        return static_cast<time_t> (
+            std::chrono::duration_cast<std::chrono::seconds> (
+                t.time_since_epoch ())
+                .count ());
       }
+
+#pragma GCC diagnostic pop
 
       system_clock::time_point
       system_clock::from_time_t (time_t t) noexcept
@@ -103,17 +118,23 @@ namespace micro_os_plus
       {
         auto cycles = rtos::hrclock.now ();
 
+#pragma GCC diagnostic push
+
+#if defined(__clang__)
+#pragma clang diagnostic ignored "-Wc++98-compat-pedantic"
+#endif
+
         // The duration is the number of sum of SysTick ticks plus the current
         // count of CPU cycles (computed from the SysTick counter).
         // Notice: a more exact solution would be to compute
         // ticks * divisor + cycles, but this severely reduces the
         // range of ticks.
-        return time_point{
-          duration{
-              duration{ cycles * 1000000000ULL
-                        / rtos::hrclock.input_clock_frequency_hz () }
-              + realtime_clock::startup_time_point.time_since_epoch () } //
-        };
+        return time_point{ duration{
+            duration{ cycles * 1000000000ULL
+                      / rtos::hrclock.input_clock_frequency_hz () }
+            + realtime_clock::startup_time_point.time_since_epoch () } };
+
+#pragma GCC diagnostic pop
       }
 
 #pragma GCC diagnostic pop
@@ -122,5 +143,7 @@ namespace micro_os_plus
     } // namespace chrono
   } // namespace estd
 } // namespace micro_os_plus
+
+#pragma GCC diagnostic pop
 
 // ----------------------------------------------------------------------------

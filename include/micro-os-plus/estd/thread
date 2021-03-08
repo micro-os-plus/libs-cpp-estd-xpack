@@ -25,21 +25,22 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-/*
- * The code is inspired by LLVM libcxx and GNU libstdc++-v3.
- */
-
 #ifndef MICRO_OS_PLUS_ESTD_THREAD_
 #define MICRO_OS_PLUS_ESTD_THREAD_
 
 // ----------------------------------------------------------------------------
+
+/*
+ * The code is inspired by LLVM libcxx and GNU libstdc++-v3.
+ */
 
 // Include the next <thread> file found in the search path.
 #pragma GCC diagnostic push
 #if defined(__clang__)
 #pragma clang diagnostic ignored "-Wgnu-include-next"
 #endif
-#include_next <thread>
+// #include_next is a GCC extension
+// #include_next <thread>
 #pragma GCC diagnostic pop
 
 #include <type_traits>
