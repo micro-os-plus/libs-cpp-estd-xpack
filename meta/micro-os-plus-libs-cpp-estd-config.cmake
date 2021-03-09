@@ -23,7 +23,7 @@ message(STATUS "Processing xPack ${PACKAGE_JSON_NAME}@${PACKAGE_JSON_VERSION}...
 # -----------------------------------------------------------------------------
 # Dependencies.
 
-# find_package(micro-os-plus-utils-lists REQUIRED)
+find_package(micro-os-plus-rtos REQUIRED)
 # find_package(micro-os-plus-memory-allocators REQUIRED)
 
 # -----------------------------------------------------------------------------
@@ -60,7 +60,7 @@ if(NOT TARGET micro-os-plus-libs-cpp-estd-interface)
     micro-os-plus-libs-cpp-estd-interface
 
     INTERFACE
-      # ...
+      micro-os-plus::rtos
   )
 
   # ---------------------------------------------------------------------------
