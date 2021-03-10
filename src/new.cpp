@@ -345,9 +345,6 @@ operator delete (void* ptr) noexcept
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wc++14-compat"
 
-void
-operator delete (void* ptr, std::size_t bytes) noexcept;
-
 /**
  * @brief Deallocate the dynamically allocated object instance.
  * @param ptr Pointer to object.
@@ -457,9 +454,6 @@ operator delete[] (void* ptr) noexcept
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wc++14-compat"
-
-void
-operator delete[] (void* ptr, std::size_t bytes) noexcept;
 
 /**
  * @brief Deallocate the dynamically allocated array of object.
