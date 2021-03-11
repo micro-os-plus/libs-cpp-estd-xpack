@@ -34,13 +34,17 @@
  * The code is inspired by LLVM libcxx and GNU libstdc++-v3.
  */
 
-// Include the next <condition_variable> file found in the search path.
 #pragma GCC diagnostic push
+
+#pragma GCC diagnostic ignored "-Wpedantic"
 #if defined(__clang__)
 #pragma clang diagnostic ignored "-Wgnu-include-next"
 #endif
+
+// Include the next <condition_variable> file found in the search path.
 // #include_next is a GCC extension
-// #include_next <condition_variable>
+#include_next <condition_variable>
+
 #pragma GCC diagnostic pop
 
 #include <memory>

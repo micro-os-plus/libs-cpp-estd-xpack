@@ -36,13 +36,14 @@
 
 #pragma GCC diagnostic push
 
+#pragma GCC diagnostic ignored "-Wpedantic"
 #if defined(__clang__)
 #pragma clang diagnostic ignored "-Wgnu-include-next"
 #endif
 
 // Include the next <mutex> file found in the search path.
-// GCC extension, avoided.
-// #include_next <mutex>
+// #include_next is a GCC extension
+#include_next <mutex>
 
 #pragma GCC diagnostic pop
 
