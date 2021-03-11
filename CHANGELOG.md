@@ -6,6 +6,11 @@ Please check
 [GitHub](https://github.com/micro-os-plus/libs-cpp-estd-xpack/issues/)
 and close existing issues and pull requests.
 
+## 2021-03-11
+
+- v2.0.3
+- re-enable #include_next
+
 ## 2021-03-10
 
 - v2.0.2
