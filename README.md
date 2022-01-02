@@ -35,22 +35,22 @@ Note: the package will be available from npmjs.com at a later date.
 
 For now, it can be installed from GitHub:
 
-```console
-$ cd <project>
-$ xpm init # Unless a package.json is already present
+```sh
+cd my-project
+xpm init # Unless a package.json is already present
 
-$ xpm install github:micro-os-plus/libs-cpp-estd-xpack
+xpm install github:micro-os-plus/libs-cpp-estd-xpack
 ```
 
 When ready, this package will be available as
 [`@micro-os-plus/libs-cpp-estd`](https://www.npmjs.com/package/@micro-os-plus/libs-cpp-estd)
 from the `npmjs.com` registry:
 
-```console
-$ cd <project>
-$ xpm init # Unless a package.json is already present
+```sh
+cd my-project
+xpm init # Unless a package.json is already present
 
-$ xpm install @micro-os-plus/libs-cpp-estd@latest
+xpm install @micro-os-plus/libs-cpp-estd@latest
 ```
 
 ### Git submodule
@@ -58,12 +58,12 @@ $ xpm install @micro-os-plus/libs-cpp-estd@latest
 If, for any reason, **xpm** is not available, the next recommended
 solution is to link it as a Git submodule below an `xpacks` folder.
 
-```console
-$ cd <project>
-$ git init # Unless already a Git project
-$ mkdir -p xpacks
+```sh
+cd my-project
+git init # Unless already a Git project
+mkdir -p xpacks
 
-$ git submodule add https://github.com/micro-os-plus/libs-cpp-estd-xpack.git \
+git submodule add https://github.com/micro-os-plus/libs-cpp-estd-xpack.git \
   xpacks/micro-os-plus-libs-cpp-estd
 ```
 
@@ -86,7 +86,7 @@ The new classes are defined in the `micro_os_plus::estd` namespace. Having them
 in a separate namespace allows to run tests on the synthetic POSIX platform.
 
 Since the libraries included in the current embedded toolchain do not
-include support for threads, it is possible to also define 
+include support for threads, it is possible to also define
 the same functionality in the `std::` namespace, and reuse
 source code from POSIX desktops.
 
