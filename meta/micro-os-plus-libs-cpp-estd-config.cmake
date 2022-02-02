@@ -43,7 +43,7 @@ if(NOT TARGET micro-os-plus-libs-cpp-estd-interface)
 
   add_library(micro-os-plus-libs-cpp-estd-interface INTERFACE EXCLUDE_FROM_ALL)
 
-  # ---------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
   xpack_glob_recurse_cxx(source_files "${xpack_current_folder}/src")
   xpack_display_relative_paths("${source_files}" "${xpack_current_folder}")
@@ -69,7 +69,7 @@ if(NOT TARGET micro-os-plus-libs-cpp-estd-interface)
       micro-os-plus::rtos
   )
 
-  # ---------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
   # Aliases.
 
   add_library(micro-os-plus::libs-cpp-estd ALIAS micro-os-plus-libs-cpp-estd-interface)
