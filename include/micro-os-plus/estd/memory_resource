@@ -186,7 +186,6 @@ namespace micro_os_plus
       polymorphic_allocator<T>::polymorphic_allocator () noexcept
           : res_ (get_default_resource ())
       {
-        ;
       }
 
       template <typename T>
@@ -194,7 +193,6 @@ namespace micro_os_plus
           memory_resource* r) noexcept
           : res_ (r)
       {
-        ;
       }
 
       template <typename T>
@@ -203,7 +201,6 @@ namespace micro_os_plus
           polymorphic_allocator<U> const& other) noexcept
           : res_ (other.resource ())
       {
-        ;
       }
 
       template <typename T>

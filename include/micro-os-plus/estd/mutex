@@ -186,7 +186,6 @@ namespace micro_os_plus
     // ========================================================================
     inline mutex::mutex () noexcept
     {
-      ;
     }
 
     inline mutex::native_handle_type
@@ -200,7 +199,6 @@ namespace micro_os_plus
     inline recursive_mutex::recursive_mutex ()
         : nm_{ micro_os_plus::rtos::mutex::initializer_recursive }
     {
-      ;
     }
 
     inline recursive_mutex::native_handle_type

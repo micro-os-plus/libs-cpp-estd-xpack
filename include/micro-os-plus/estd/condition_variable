@@ -210,12 +210,10 @@ namespace micro_os_plus
     // ========================================================================
     inline condition_variable::condition_variable ()
     {
-      ;
     }
 
     inline condition_variable::~condition_variable ()
     {
-      ;
     }
 
     template <class Predicate_T>
@@ -322,12 +320,10 @@ namespace micro_os_plus
         : cv_{}, //
           mx_{ std::make_shared<mutex> () }
     {
-      ;
     }
 
     inline condition_variable_any::~condition_variable_any ()
     {
-      ;
     }
 
     inline void
