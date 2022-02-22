@@ -1,7 +1,7 @@
 {
   "name": "@micro-os-plus/libs-cpp-estd",
   "version": "2.0.3",
-  "description": "A source xPack with µOS++ embedded std:: support",
+  "description": "A source library xPack with µOS++ embedded std:: support",
   "main": "",
   "scripts": {
     "npm-install": "npm install",
