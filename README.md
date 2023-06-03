@@ -1,7 +1,7 @@
 [![GitHub package.json version](https://img.shields.io/github/package-json/v/micro-os-plus/libs-cpp-estd-xpack)](https://github.com/micro-os-plus/libs-cpp-estd-xpack/blob/xpack/package.json)
 [![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/micro-os-plus/libs-cpp-estd-xpack)](https://github.com/micro-os-plus/libs-cpp-estd-xpack/tags/)
 [![npm (scoped)](https://img.shields.io/npm/v/@micro-os-plus/libs-cpp-estd.svg?color=blue)](https://www.npmjs.com/package/@micro-os-plus/libs-cpp-estd/)[![license](https://img.shields.io/github/license/micro-os-plus/libs-cpp-estd-xpack)](https://github.com/micro-os-plus/libs-cpp-estd-xpack/blob/xpack/LICENSE)
-[![CI on Push](https://github.com/micro-os-plus/libs-cpp-estd-xpack/actions/workflows/CI.yml/badge.svg)](https://github.com/micro-os-plus/libs-cpp-estd-xpack/actions/workflows/CI.yml)
+[![CI on Push](https://github.com/micro-os-plus/libs-cpp-estd-xpack/actions/workflows/ci.yml/badge.svg)](https://github.com/micro-os-plus/libs-cpp-estd-xpack/actions/workflows/ci.yml)
 
 # A source library xPack with the µOS++ embedded `std::` support
 
