@@ -60,7 +60,7 @@ xpm init # Unless a package.json is already present
 
 xpm install @micro-os-plus/libs-cpp-estd@latest
 
-ls -l xpacks/micro-os-plus-libs-cpp-estd
+ls -l xpacks/@micro-os-plus/libs-cpp-estd
 ```
 
 ### Git submodule
@@ -74,7 +74,7 @@ git init # Unless already a Git project
 mkdir -p xpacks
 
 git submodule add https://github.com/micro-os-plus/libs-cpp-estd-xpack.git \
-  xpacks/micro-os-plus-libs-cpp-estd
+  xpacks/@micro-os-plus/libs-cpp-estd
 ```
 
 ## Branches
