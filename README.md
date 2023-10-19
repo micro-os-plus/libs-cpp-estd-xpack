@@ -3,7 +3,7 @@
 [![npm (scoped)](https://img.shields.io/npm/v/@micro-os-plus/libs-cpp-estd.svg?color=blue)](https://www.npmjs.com/package/@micro-os-plus/libs-cpp-estd/)[![license](https://img.shields.io/github/license/micro-os-plus/libs-cpp-estd-xpack)](https://github.com/micro-os-plus/libs-cpp-estd-xpack/blob/xpack/LICENSE)
 [![CI on Push](https://github.com/micro-os-plus/libs-cpp-estd-xpack/actions/workflows/ci.yml/badge.svg)](https://github.com/micro-os-plus/libs-cpp-estd-xpack/actions/workflows/ci.yml)
 
-# A source library xPack with the µOS++ embedded `std::` support
+# A source code library with the µOS++ embedded `std::` support
 
 This project includes files that complement the C++ `std::` classes.
 
@@ -165,7 +165,7 @@ are:
 
 ## License
 
-The original content is released under the
-[MIT License](https://opensource.org/licenses/MIT/),
+Unless otherwise stated, the content is released under the terms of the
+[MIT License](https://opensource.org/licenses/mit/),
 with all rights reserved to
 [Liviu Ionescu](https://github.com/ilg-ul).
